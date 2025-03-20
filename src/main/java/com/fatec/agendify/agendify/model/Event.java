@@ -1,10 +1,15 @@
 package com.fatec.agendify.agendify.model;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fatec.agendify.agendify.validation.ValidEventLocation;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +21,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ValidEventLocation
 public class Event {
 
     @Id
@@ -26,16 +32,13 @@ public class Event {
     private String name;
 
     @NotNull(message = "O dia é obrigatório.")
-    private LocalDate day; // Alterado para LocalDate para representar a data corretamente
+    private LocalDate day;
 
     @NotNull(message = "O início do horário é obrigatório.")
-    private LocalTime startSchedule; // Alterado para LocalTime para representar o horário corretamente
+    private LocalTime startTime;
 
     @NotNull(message = "O término do horário é obrigatório.")
-    private LocalTime lastSchedule; // Alterado para LocalTime para representar o horário corretamente
-
-    @NotNull(message = "O horário é obrigatório.")
-    private LocalTime time; // Parece redundante com os outros horários, mas mantive
+    private LocalTime lastTime; 
 
     @NotBlank(message = "O tema é obrigatório.")
     private String theme;
@@ -43,8 +46,8 @@ public class Event {
     @NotBlank(message = "O público-alvo é obrigatório.")
     private String targetAudience;
 
-    @NotBlank(message = "A modalidade é obrigatória.")
-    private String modality;
+    @NotNull(message = "A modalidade é obrigatória.")
+    private EventMode mode;
 
     @NotBlank(message = "O ambiente é obrigatório.")
     private String environment;
@@ -53,16 +56,30 @@ public class Event {
     private String organizer;
 
     @NotBlank(message = "Os recursos são obrigatórios.")
-    private String resources;
+    private List<String> resourcesDescription;
 
     @NotBlank(message = "A forma de divulgação é obrigatória.")
-    private String formDisclosure;
-
-    private String observation; // Pode ser opcional, então removi @NotBlank
+    private String disclosureMethod;
 
     @NotBlank(message = "A disciplina é obrigatória.")
-    private String disciplines;
+    private List<String> relatedSubjects;
 
     @NotBlank(message = "A estratégia de ensino é obrigatória.")
     private String teachingStrategy;
+
+    @NotBlank(message = "O(s) autore(s) são obrigatórios.")
+    private List<String> authors;
+
+    @NotBlank(message = "O vínculo disciplinar são obrigatórios.")
+    private String disciplinaryLink;
+
+    @NotNull(message = "O local é obrigatório.")
+    private EventLocation location;
+    
+    private Instant createdAt; 
+    
+    @LastModifiedDate
+    private Instant lastModifiedAt;
+
+    private String observation; 
 }

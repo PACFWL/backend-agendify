@@ -1,5 +1,57 @@
 package com.fatec.agendify.agendify.controller.event;
 
+import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
+import com.fatec.agendify.agendify.dto.event.EventDTO;
+import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
+import com.fatec.agendify.agendify.service.event.EventService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/events")
 public class EventController {
-    
+
+    private final EventService eventService;
+
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
+
+    @PostMapping
+    public ResponseEntity<EventDTO> createEvent(@RequestBody @Valid EventCreateDTO eventCreateDTO) {
+        return ResponseEntity.ok(eventService.createEvent(eventCreateDTO));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EventDTO> getEventById(@PathVariable String id) {
+        Optional<EventDTO> event = eventService.getEventById(id);
+        return event.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EventDTO>> getAllEvents() {
+        return ResponseEntity.ok(eventService.getAllEvents());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EventDTO> updateEvent(
+            @PathVariable String id,
+            @RequestBody @Valid EventUpdateDTO eventUpdateDTO) {
+        return ResponseEntity.ok(eventService.updateEvent(id, eventUpdateDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> deleteEvent(@PathVariable String id) {
+        eventService.deleteEvent(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Evento deletado com sucesso");
+        return ResponseEntity.ok(response);
+    }
 }

@@ -1,5 +1,71 @@
 package com.fatec.agendify.agendify.dto.event;
 
+import com.fatec.agendify.agendify.model.EventLocation;
+import com.fatec.agendify.agendify.model.EventMode;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EventCreateDTO {
     
+    @NotBlank(message = "O nome é obrigatório.")
+    private String name;
+
+    @NotNull(message = "O dia é obrigatório.")
+    private LocalDate day;
+
+    @NotNull(message = "O horário de início é obrigatório.")
+    private LocalTime startTime;
+
+    @NotNull(message = "O horário de término é obrigatório.")
+    private LocalTime lastTime;
+
+    @NotBlank(message = "O tema é obrigatório.")
+    private String theme;
+
+    @NotBlank(message = "O público-alvo é obrigatório.")
+    private String targetAudience;
+
+    @NotNull(message = "A modalidade é obrigatória.")
+    private EventMode mode;
+
+    @NotBlank(message = "O ambiente é obrigatório.")
+    private String environment;
+
+    @NotBlank(message = "O organizador é obrigatório.")
+    private String organizer;
+
+    @NotBlank(message = "Os recursos são obrigatórios.")
+    private List<String> resourcesDescription;
+
+    @NotBlank(message = "A forma de divulgação é obrigatória.")
+    private String disclosureMethod;
+
+    @NotBlank(message = "A disciplina é obrigatória.")
+    private List<String> relatedSubjects;
+
+    @NotBlank(message = "A estratégia de ensino é obrigatória.")
+    private String teachingStrategy;
+
+    @NotBlank(message = "O(s) autore(s) são obrigatórios.")
+    private List<String> authors;
+
+    @NotBlank(message = "O vínculo disciplinar é obrigatório.")
+    private String disciplinaryLink;
+
+    @NotNull(message = "O local é obrigatório.")
+    private EventLocation location;
+
+    private String observation;
 }

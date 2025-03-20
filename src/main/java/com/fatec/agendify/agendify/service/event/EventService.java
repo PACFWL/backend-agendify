@@ -1,5 +1,63 @@
 package com.fatec.agendify.agendify.service.event;
 
+import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
+import com.fatec.agendify.agendify.dto.event.EventDTO;
+import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
+import com.fatec.agendify.agendify.mapper.EventMapper;
+import com.fatec.agendify.agendify.model.Event;
+import com.fatec.agendify.agendify.repository.EventRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
 public class EventService {
     
+    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
+    private final EventRepository eventRepository;
+
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
+    public EventDTO createEvent(EventCreateDTO eventCreateDTO) {
+        logger.info("Criando evento: {}", eventCreateDTO);
+        Event event = EventMapper.toEntity(eventCreateDTO);
+        return EventMapper.toDTO(eventRepository.save(event));
+    }
+
+    public Optional<EventDTO> getEventById(String id) {
+        logger.info("Buscando evento com ID: {}", id);
+        return eventRepository.findById(id).map(EventMapper::toDTO);
+    }
+
+    public List<EventDTO> getAllEvents() {
+        logger.info("Buscando todos os eventos.");
+        return eventRepository.findAll().stream()
+                .map(EventMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public EventDTO updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
+        logger.info("Atualizando evento com ID: {}", id);
+        Event existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
+
+        EventMapper.updateEntityFromDTO(existingEvent, eventUpdateDTO);
+        return EventMapper.toDTO(eventRepository.save(existingEvent));
+    }
+
+    public void deleteEvent(String id) {
+        logger.info("Deletando evento com ID: {}", id);
+        if (!eventRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado");
+        }
+        eventRepository.deleteById(id);
+    }
 }
