@@ -28,7 +28,10 @@ public class SecurityConfig {
         http
             .cors(cors -> cors.configurationSource(request -> {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("http://localhost:3000"));
+                config.setAllowedOrigins(List.of(
+                    "http://10.0.2.2:8080",  // Para emulador Android
+                    "http://localhost:8080"  // Para testes locais no navegador
+                ));
                 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                 config.setAllowCredentials(true);

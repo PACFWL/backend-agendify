@@ -22,7 +22,7 @@ public class EventDTO {
     private String name;
     private LocalDate day;
     private LocalTime startTime;
-    private LocalTime lastTime;
+    private LocalTime endTime;
     private String theme;
     private String targetAudience;
     private EventMode mode;

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +29,19 @@ public class EventService {
 
     public EventDTO createEvent(EventCreateDTO eventCreateDTO) {
         logger.info("Criando evento: {}", eventCreateDTO);
+        
+        if (eventCreateDTO.getResourcesDescription().stream().anyMatch(String::isBlank)){
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cada recurso deve ser preenchido");
+        }
+
+        if (eventCreateDTO.getRelatedSubjects().stream().anyMatch(String::isBlank)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cada disciplina deve ser preenchida");
+        }
+
+        if (eventCreateDTO.getAuthors().stream().anyMatch(String::isBlank)){
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cada autor(a) deve ser preenchido");
+        }        
+        
         Event event = EventMapper.toEntity(eventCreateDTO);
         return EventMapper.toDTO(eventRepository.save(event));
     }
@@ -50,6 +64,8 @@ public class EventService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
 
         EventMapper.updateEntityFromDTO(existingEvent, eventUpdateDTO);
+        existingEvent.setLastModifiedAt(Instant.now());
+        
         return EventMapper.toDTO(eventRepository.save(existingEvent));
     }
 

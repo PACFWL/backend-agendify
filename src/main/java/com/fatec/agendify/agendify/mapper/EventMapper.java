@@ -5,7 +5,6 @@ import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.model.Event;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,7 @@ public class EventMapper {
                 .name(event.getName())
                 .day(event.getDay())
                 .startTime(event.getStartTime())
-                .lastTime(event.getLastTime())
+                .endTime(event.getLastTime())
                 .theme(event.getTheme())
                 .targetAudience(event.getTargetAudience())
                 .mode(event.getMode())
@@ -31,8 +30,8 @@ public class EventMapper {
                 .disciplinaryLink(event.getDisciplinaryLink())
                 .location(event.getLocation())
                 .observation(event.getObservation())
-                .createdAt(Instant.now())
-                .lastModifiedAt(Instant.now())
+                .createdAt(event.getCreatedAt())
+                .lastModifiedAt(event.getLastModifiedAt())
                 .build();
     }
 
@@ -41,7 +40,7 @@ public class EventMapper {
                 .name(dto.getName())
                 .day(dto.getDay())
                 .startTime(dto.getStartTime())
-                .lastTime(dto.getLastTime())
+                .lastTime(dto.getEndTime())
                 .theme(dto.getTheme())
                 .targetAudience(dto.getTargetAudience())
                 .mode(dto.getMode())
@@ -62,7 +61,7 @@ public class EventMapper {
         if (dto.getName() != null) event.setName(dto.getName());
         if (dto.getDay() != null) event.setDay(dto.getDay());
         if (dto.getStartTime() != null) event.setStartTime(dto.getStartTime());
-        if (dto.getLastTime() != null) event.setLastTime(dto.getLastTime());
+        if (dto.getEndTime() != null) event.setLastTime(dto.getEndTime());
         if (dto.getTheme() != null) event.setTheme(dto.getTheme());
         if (dto.getTargetAudience() != null) event.setTargetAudience(dto.getTargetAudience());
         if (dto.getMode() != null) event.setMode(dto.getMode());
