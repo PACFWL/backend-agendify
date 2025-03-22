@@ -2,6 +2,10 @@ package com.fatec.agendify.agendify.dto.event;
 
 import com.fatec.agendify.agendify.model.EventLocation;
 import com.fatec.agendify.agendify.model.EventMode;
+import com.fatec.agendify.agendify.model.EventPriority;
+import com.fatec.agendify.agendify.model.EventStatus;
+
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -24,6 +29,7 @@ public class EventCreateDTO {
     private String name;
 
     @NotNull(message = "O dia é obrigatório.")
+    @FutureOrPresent(message = "O evento não pode ser criado no passado.")
     private LocalDate day;
 
     @NotNull(message = "O horário de início é obrigatório.")
@@ -67,6 +73,15 @@ public class EventCreateDTO {
 
     @NotNull(message = "O local é obrigatório.")
     private EventLocation location;
+
+    @NotNull(message = "O estado do evento é obrigatório")
+    private EventStatus status;
+
+    @NotNull(message = "A prioridade é obrigatória")
+    private EventPriority priority;
+
+    @NotNull(message = "O tempo de intervalo é obrigatório.")
+    private Duration cleanupDuration;
 
     private String observation;
 }

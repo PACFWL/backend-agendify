@@ -2,11 +2,16 @@ package com.fatec.agendify.agendify.dto.event;
 
 import com.fatec.agendify.agendify.model.EventLocation;
 import com.fatec.agendify.agendify.model.EventMode;
+import com.fatec.agendify.agendify.model.EventPriority;
+import com.fatec.agendify.agendify.model.EventStatus;
+
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -18,6 +23,7 @@ import java.util.List;
 public class EventUpdateDTO {
 
     private String name;
+    @FutureOrPresent(message = "O evento não pode ser criado no passado.")
     private LocalDate day;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -33,5 +39,8 @@ public class EventUpdateDTO {
     private List<String> authors;
     private String disciplinaryLink;
     private EventLocation location;
+    private EventStatus status;
+    private EventPriority priority;
+    private Duration cleanupDuration;
     private String observation;
 }

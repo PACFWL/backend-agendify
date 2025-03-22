@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = EventLocationValidator.class)
-@Target({ ElementType.TYPE }) // Aplica-se à classe inteira
+@Target({ ElementType.TYPE }) 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidEventLocation {
     String message() default "Local do evento é incompatível com a modalidade escolhida.";

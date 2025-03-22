@@ -4,15 +4,18 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
 import java.util.UUID;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fatec.agendify.agendify.validation.ValidEventLocation;
-
+import java.time.Duration;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -38,7 +41,7 @@ public class Event {
     private LocalTime startTime;
 
     @NotNull(message = "O término do horário é obrigatório.")
-    private LocalTime lastTime; 
+    private LocalTime endTime; 
 
     @NotBlank(message = "O tema é obrigatório.")
     private String theme;
@@ -55,31 +58,41 @@ public class Event {
     @NotBlank(message = "O organizador é obrigatório.")
     private String organizer;
 
-    @NotBlank(message = "Os recursos são obrigatórios.")
+    @NotEmpty(message = "Os recursos são obrigatórios.")
     private List<String> resourcesDescription;
 
     @NotBlank(message = "A forma de divulgação é obrigatória.")
     private String disclosureMethod;
 
-    @NotBlank(message = "A disciplina é obrigatória.")
+    @NotEmpty(message = "A disciplina é obrigatória.")
     private List<String> relatedSubjects;
 
     @NotBlank(message = "A estratégia de ensino é obrigatória.")
     private String teachingStrategy;
 
-    @NotBlank(message = "O(s) autore(s) são obrigatórios.")
+    @NotEmpty(message = "O(s) autore(s) são obrigatórios.")
     private List<String> authors;
 
-    @NotBlank(message = "O vínculo disciplinar são obrigatórios.")
+    @NotBlank(message = "O vínculo disciplinar é obrigatórios.")
     private String disciplinaryLink;
 
     @NotNull(message = "O local é obrigatório.")
     private EventLocation location;
     
+    @CreatedDate
     private Instant createdAt; 
     
     @LastModifiedDate
     private Instant lastModifiedAt;
 
-    private String observation; 
+    @NotNull(message = "O estado do evento é obrigatório")
+    private EventStatus status;
+    
+    @NotNull(message = "A prioridade é obrigatória")
+    private EventPriority priority;
+
+    @NotNull(message = "O tempo de intervalo é obrigatório.")
+    private Duration cleanupDuration;
+
+    private String observation;
 }

@@ -5,6 +5,7 @@ import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.model.Event;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class EventMapper {
                 .name(event.getName())
                 .day(event.getDay())
                 .startTime(event.getStartTime())
-                .endTime(event.getLastTime())
+                .endTime(event.getEndTime())
                 .theme(event.getTheme())
                 .targetAudience(event.getTargetAudience())
                 .mode(event.getMode())
@@ -30,6 +31,9 @@ public class EventMapper {
                 .disciplinaryLink(event.getDisciplinaryLink())
                 .location(event.getLocation())
                 .observation(event.getObservation())
+                .status(event.getStatus())
+                .priority(event.getPriority())
+                .cleanupDuration(event.getCleanupDuration()) 
                 .createdAt(event.getCreatedAt())
                 .lastModifiedAt(event.getLastModifiedAt())
                 .build();
@@ -40,7 +44,7 @@ public class EventMapper {
                 .name(dto.getName())
                 .day(dto.getDay())
                 .startTime(dto.getStartTime())
-                .lastTime(dto.getEndTime())
+                .endTime(dto.getEndTime())
                 .theme(dto.getTheme())
                 .targetAudience(dto.getTargetAudience())
                 .mode(dto.getMode())
@@ -54,6 +58,9 @@ public class EventMapper {
                 .disciplinaryLink(dto.getDisciplinaryLink())
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
+                .status(dto.getStatus())
+                .priority(dto.getPriority())
+                .cleanupDuration(dto.getCleanupDuration())
                 .build();
     }
 
@@ -61,7 +68,7 @@ public class EventMapper {
         if (dto.getName() != null) event.setName(dto.getName());
         if (dto.getDay() != null) event.setDay(dto.getDay());
         if (dto.getStartTime() != null) event.setStartTime(dto.getStartTime());
-        if (dto.getEndTime() != null) event.setLastTime(dto.getEndTime());
+        if (dto.getEndTime() != null) event.setEndTime(dto.getEndTime());
         if (dto.getTheme() != null) event.setTheme(dto.getTheme());
         if (dto.getTargetAudience() != null) event.setTargetAudience(dto.getTargetAudience());
         if (dto.getMode() != null) event.setMode(dto.getMode());
@@ -75,6 +82,11 @@ public class EventMapper {
         if (dto.getDisciplinaryLink() != null) event.setDisciplinaryLink(dto.getDisciplinaryLink());
         if (dto.getLocation() != null) event.setLocation(dto.getLocation());
         if (dto.getObservation() != null) event.setObservation(dto.getObservation());
+        if (dto.getStatus() != null) event.setStatus(dto.getStatus());
+        if (dto.getPriority() != null) event.setPriority(dto.getPriority());    
+        if (dto.getCleanupDuration() != null) event.setCleanupDuration(dto.getCleanupDuration());
+
+        event.setLastModifiedAt(Instant.now());
     }
 
     public static List<EventDTO> toDTOList(List<Event> eventList) {

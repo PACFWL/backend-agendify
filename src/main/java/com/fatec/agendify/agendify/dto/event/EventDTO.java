@@ -2,11 +2,15 @@ package com.fatec.agendify.agendify.dto.event;
 
 import com.fatec.agendify.agendify.model.EventLocation;
 import com.fatec.agendify.agendify.model.EventMode;
+import com.fatec.agendify.agendify.model.EventPriority;
+import com.fatec.agendify.agendify.model.EventStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -36,6 +40,9 @@ public class EventDTO {
     private String disciplinaryLink;
     private EventLocation location;
     private String observation;
+    private EventStatus status;
+    private EventPriority priority;
+    private Duration cleanupDuration;
     private Instant createdAt;
     private Instant lastModifiedAt;
 }
