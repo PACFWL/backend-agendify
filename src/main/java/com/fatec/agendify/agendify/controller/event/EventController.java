@@ -1,9 +1,12 @@
 package com.fatec.agendify.agendify.controller.event;
 
+import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
 import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.service.event.EventService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +26,17 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @PostMapping
-    public ResponseEntity<EventDTO> createEvent(@RequestBody @Valid EventCreateDTO eventCreateDTO) {
-        return ResponseEntity.ok(eventService.createEvent(eventCreateDTO));
+
+@PostMapping
+public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCreateDTO) {
+    Object response = eventService.createEvent(eventCreateDTO);
+
+    if (response instanceof EventConflictDTO) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    } else {
+        return ResponseEntity.ok(response);
     }
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable String id) {
@@ -54,4 +64,13 @@ public class EventController {
         response.put("message", "Evento deletado com sucesso");
         return ResponseEntity.ok(response);
     }
+    
+    @PostMapping("/resolve/{existingEventId}")
+    public ResponseEntity<EventDTO> resolveConflict(
+            @PathVariable String existingEventId,
+            @RequestBody @Valid EventCreateDTO newEventDTO) {
+        return ResponseEntity.ok(eventService.resolveEventConflict(existingEventId, newEventDTO));
+    }
+    
+
 }

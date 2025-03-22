@@ -7,12 +7,14 @@ import java.util.List;
 
 import java.util.UUID;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fatec.agendify.agendify.validation.ValidEventLocation;
 import java.time.Duration;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -79,10 +81,11 @@ public class Event {
     @NotNull(message = "O local é obrigatório.")
     private EventLocation location;
     
-    @CreatedDate
+    @CreationTimestamp
+    @Column(updatable = false)
     private Instant createdAt; 
     
-    @LastModifiedDate
+    @UpdateTimestamp
     private Instant lastModifiedAt;
 
     @NotNull(message = "O estado do evento é obrigatório")

@@ -1,10 +1,12 @@
 package com.fatec.agendify.agendify.service.event;
 
+import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
 import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.mapper.EventMapper;
 import com.fatec.agendify.agendify.model.Event;
+import com.fatec.agendify.agendify.model.EventLocation;
 import com.fatec.agendify.agendify.repository.EventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +30,7 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public EventDTO createEvent(EventCreateDTO eventCreateDTO) {
+    public Object createEvent(EventCreateDTO eventCreateDTO) {
         logger.info("Criando evento: {}", eventCreateDTO);
         
         if (eventCreateDTO.getResourcesDescription().stream().anyMatch(String::isBlank)){
@@ -42,9 +45,55 @@ public class EventService {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cada autor(a) deve ser preenchido");
         }        
         
+            List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
+            eventCreateDTO.getDay(), eventCreateDTO.getLocation().getName()
+        );
+
+        
+    for (Event existingEvent : conflictingEvents) {
+        LocalTime existingStart = existingEvent.getStartTime();
+        LocalTime existingEnd = existingEvent.getEndTime().plus(existingEvent.getCleanupDuration());
+        LocalTime newStart = eventCreateDTO.getStartTime();
+        LocalTime newEnd = eventCreateDTO.getEndTime().plus(eventCreateDTO.getCleanupDuration());
+
+        boolean isOverlapping = !(newEnd.isBefore(existingStart) || newStart.isAfter(existingEnd));
+
+        if (isOverlapping) {
+            if (eventCreateDTO.getPriority().ordinal() > existingEvent.getPriority().ordinal()) {
+                existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
+                eventRepository.save(existingEvent);
+            } else if (eventCreateDTO.getPriority().ordinal() < existingEvent.getPriority().ordinal()) {
+                eventCreateDTO.setLocation(new EventLocation("A definir", eventCreateDTO.getLocation().getFloor()));
+            } else {
+              
+                return new EventConflictDTO(
+                    "Conflito de eventos com mesma prioridade. Escolha uma ação.",
+                    EventMapper.toDTO(existingEvent)
+                );
+            }
+        }
+    }
+
         Event event = EventMapper.toEntity(eventCreateDTO);
+            event.setCreatedAt(Instant.now());
+            event.setLastModifiedAt(Instant.now()); 
         return EventMapper.toDTO(eventRepository.save(event));
     }
+
+    public EventDTO resolveEventConflict(String existingEventId, EventCreateDTO newEventDTO) {
+        Event existingEvent = eventRepository.findById(existingEventId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento existente não encontrado"));
+    
+ 
+        existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
+        eventRepository.save(existingEvent);
+   
+        Event newEvent = EventMapper.toEntity(newEventDTO);
+            newEvent.setCreatedAt(Instant.now());
+            newEvent.setLastModifiedAt(Instant.now());
+        return EventMapper.toDTO(eventRepository.save(newEvent));
+    }
+    
 
     public Optional<EventDTO> getEventById(String id) {
         logger.info("Buscando evento com ID: {}", id);
