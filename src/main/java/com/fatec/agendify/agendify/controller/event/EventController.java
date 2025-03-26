@@ -80,10 +80,13 @@ public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCre
     }
 
     @PostMapping("/resolve-update/{conflictingEventId}")
-public ResponseEntity<EventDTO> resolveUpdateConflict(
-        @PathVariable String conflictingEventId,
-        @RequestBody @Valid EventUpdateDTO updatedEventDTO) {
-    return ResponseEntity.ok(eventService.resolveUpdateConflict(conflictingEventId, updatedEventDTO));
-}
+    public ResponseEntity<EventDTO> resolveUpdateConflict(
+            @PathVariable String conflictingEventId,
+            @RequestBody @Valid EventUpdateDTO updatedEventDTO) {
+    
+        String updatedEventId = updatedEventDTO.getId();
+    
+        return ResponseEntity.ok(eventService.resolveUpdateConflict(conflictingEventId, updatedEventId, updatedEventDTO));
+    } 
 }
 

@@ -148,22 +148,28 @@ public class EventService {
         return EventMapper.toDTO(eventRepository.save(existingEvent));
     }
     
-    public EventDTO resolveUpdateConflict(String conflictingEventId, EventUpdateDTO updatedEventDTO) {
+    public EventDTO resolveUpdateConflict(String conflictingEventId, String updatedEventId, EventUpdateDTO updatedEventDTO) {
+        
         Event conflictingEvent = eventRepository.findById(conflictingEventId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento conflitante não encontrado"));
     
-     
+      
         conflictingEvent.setLocation(new EventLocation("A definir", conflictingEvent.getLocation().getFloor()));
         eventRepository.save(conflictingEvent);
     
-        Event updatedEvent = eventRepository.findById(conflictingEventId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento atualizado não encontrado"));
+      
+        Event updatedEvent = eventRepository.findById(updatedEventId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento a ser atualizado não encontrado"));
     
+     
         EventMapper.updateEntityFromDTO(updatedEvent, updatedEventDTO);
         updatedEvent.setLastModifiedAt(Instant.now());
     
+   
         return EventMapper.toDTO(eventRepository.save(updatedEvent));
     }
+    
+    
     
 
     public void deleteEvent(String id) {

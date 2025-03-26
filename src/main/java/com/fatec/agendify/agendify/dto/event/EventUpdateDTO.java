@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class EventUpdateDTO {
-    
+    private String id; 
     private String name;
     @FutureOrPresent(message = "O evento não pode ser criado no passado.")
     private LocalDate day;

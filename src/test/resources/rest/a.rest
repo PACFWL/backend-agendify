@@ -1,0 +1,132 @@
+### Criar evento A no Local X
+POST http://localhost:8080/api/events
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDMwMjkyMDYsImV4cCI6MTc0MzExNTYwNn0.SxNMKcIFrMWw-umSNyk1MXn6lv74OEH4dxTVaJARUOs
+Content-Type: application/json
+
+{
+  "name": "Evento A",
+  "day": "2025-04-01",
+  "startTime": "10:00:00",
+  "endTime": "12:00:00",
+  "theme": "Tema A",
+  "targetAudience": "Público A",
+  "mode": "PRESENCIAL",
+  "environment": "Auditório",
+  "organizer": "Organizador A",
+  "resourcesDescription": ["Projetor", "Microfone"],
+  "disclosureMethod": "Redes Sociais",
+  "relatedSubjects": ["Matemática"],
+  "teachingStrategy": "Expositiva",
+  "authors": ["Autor A"],
+  "disciplinaryLink": "Disciplina A",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
+
+### Criar evento B no Local Y
+POST http://localhost:8080/api/events
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDMwMjkyMDYsImV4cCI6MTc0MzExNTYwNn0.SxNMKcIFrMWw-umSNyk1MXn6lv74OEH4dxTVaJARUOs
+Content-Type: application/json
+
+{
+  "name": "Evento B",
+  "day": "2025-04-01",
+  "startTime": "11:00:00",
+  "endTime": "13:00:00",
+  "theme": "Tema B",
+  "targetAudience": "Público B",
+  "mode": "PRESENCIAL",
+  "environment": "Sala 101",
+  "organizer": "Organizador B",
+  "resourcesDescription": ["Notebook"],
+  "disclosureMethod": "E-mail",
+  "relatedSubjects": ["Física"],
+  "teachingStrategy": "Prática",
+  "authors": ["Autor B"],
+  "disciplinaryLink": "Disciplina B",
+  "location": {
+    "name": "Local Y",
+    "floor": "1"
+  },
+  "status": "PLANEJADO",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
+
+### Atualizar evento B para o Local X (gera conflito)
+PUT http://localhost:8080/api/events/0f49eb50-66e2-474f-a1a7-698e54001604
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDMwMjkyMDYsImV4cCI6MTc0MzExNTYwNn0.SxNMKcIFrMWw-umSNyk1MXn6lv74OEH4dxTVaJARUOs
+Content-Type: application/json
+
+{
+  "id": "0f49eb50-66e2-474f-a1a7-698e54001604",
+  "name": "Evento B",
+  "day": "2025-04-01",
+  "startTime": "11:00:00",
+  "endTime": "13:00:00",
+  "theme": "Tema B",
+  "targetAudience": "Público B",
+  "mode": "PRESENCIAL",
+  "environment": "Sala 101",
+  "organizer": "Organizador B",
+  "resourcesDescription": ["Notebook"],
+  "disclosureMethod": "E-mail",
+  "relatedSubjects": ["Física"],
+  "teachingStrategy": "Prática",
+  "authors": ["Autor B"],
+  "disciplinaryLink": "Disciplina B",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
+
+### Resolver conflito - Transferir Evento B para Local X e Evento A para "A definir"
+POST http://localhost:8080/api/events/resolve-update/6d7ef32a-0a5e-410b-b3d4-bcd80610ee5d
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDMwMjkyMDYsImV4cCI6MTc0MzExNTYwNn0.SxNMKcIFrMWw-umSNyk1MXn6lv74OEH4dxTVaJARUOs
+Content-Type: application/json
+
+{
+  "id": "0f49eb50-66e2-474f-a1a7-698e54001604",
+  "name": "Evento B",
+  "day": "2025-04-01",
+  "startTime": "11:00:00",
+  "endTime": "13:00:00",
+  "theme": "Tema B",
+  "targetAudience": "Público B",
+  "mode": "PRESENCIAL",
+  "environment": "Sala 101",
+  "organizer": "Organizador B",
+  "resourcesDescription": ["Notebook"],
+  "disclosureMethod": "E-mail",
+  "relatedSubjects": ["Física"],
+  "teachingStrategy": "Prática",
+  "authors": ["Autor B"],
+  "disciplinaryLink": "Disciplina B",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
+
+
+### Verificar estado do Evento A (deve estar em "A definir")
+GET http://localhost:8080/api/events/
+
+### Verificar estado do Evento B (deve estar no Local X)
+GET http://localhost:8080/api/events/
