@@ -1,16 +1,16 @@
 # Criar um novo evento
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI2NjkwODQsImV4cCI6MTc0Mjc1NTQ4NH0.icukcr4BOE7xiOnV4KiE8pCeXCoxNJD1L0cHlUeVxCw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI5NDUzNjAsImV4cCI6MTc0MzAzMTc2MH0.OAbQva1-Zw5n_j-C0IsY5S_0l52GpAT85IRbHbMB_UU
 Content-Type: application/json
 
 {
-  "name": "Evento Teste B",
-  "day": "2025-03-22",
-  "startTime": "06:40:00",
-  "endTime": "08:00:00",
+  "name": "Evento B",
+  "day": "2025-04-01",
+  "startTime": "12:00:00",
+  "endTime": "15:00:00",
   "theme": "Tecnologia",
   "targetAudience": "Estudantes",
-  "mode": "IN_PERSON",
+  "mode": "PRESENCIAL",
   "environment": "Auditório",
   "organizer": "Prof. João",
   "resourcesDescription": ["Projetor", "Microfone"],
@@ -19,7 +19,7 @@ Content-Type: application/json
   "teachingStrategy": "Palestra",
   "authors": ["Prof. João"],
   "disciplinaryLink": "Informática",
-  "location": { "name": "Sala 101", "floor": "1" },
+  "location": { "name": "Sala 101", "floor": "0" },
   "observation": "Trazer material de anotação",
   "status": "EM_BREVE",
   "priority": "ALTA",
@@ -27,23 +27,39 @@ Content-Type: application/json
 }
 
 ### Buscar evento por ID
-GET http://localhost:8080/api/events/{id}
+GET http://localhost:8080/api/events/548e9816-05e8-45e2-b66f-95e89a43b5ae
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI3NzczODYsImV4cCI6MTc0Mjg2Mzc4Nn0.Kq9E7J4YPJd0Rlv-De_IouNhgeVuqm1ccwaEFigH2c4
 
 ### Buscar todos os eventos
 GET http://localhost:8080/api/events
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI3NzczODYsImV4cCI6MTc0Mjg2Mzc4Nn0.Kq9E7J4YPJd0Rlv-De_IouNhgeVuqm1ccwaEFigH2c4
 
 ### Atualizar um evento existente
-PUT http://localhost:8080/api/events/a4a2d09f-3895-4e6a-946c-5a40213e8359
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI2NjkwODQsImV4cCI6MTc0Mjc1NTQ4NH0.icukcr4BOE7xiOnV4KiE8pCeXCoxNJD1L0cHlUeVxCw
+POST http://localhost:8080/api/events/resolve-update/dad78626-5023-48cc-88de-b52892908e3b
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI5NDUzNjAsImV4cCI6MTc0MzAzMTc2MH0.OAbQva1-Zw5n_j-C0IsY5S_0l52GpAT85IRbHbMB_UU
 Content-Type: application/json
 
 {
-  "name": "Evento Atualizado A",
-  "startTime": "06:30:00",
-  "endTime": "08:00:00",
-  "theme": "The",
-  "status": "PLANEJADO"
-
+  "name": "Evento B",
+  "day": "2025-04-01",
+  "startTime": "08:00:00",
+  "endTime": "09:00:00",
+  "theme": "Tecnologia",
+  "targetAudience": "Estudantes",
+  "mode": "PRESENCIAL",
+  "environment": "Auditório",
+  "organizer": "Prof. João",
+  "resourcesDescription": ["Projetor", "Microfone"],
+  "disclosureMethod": "E-mail",
+  "relatedSubjects": ["Computação", "Engenharia"],
+  "teachingStrategy": "Palestra",
+  "authors": ["Prof. João"],
+  "disciplinaryLink": "Informática",
+  "location": { "name": "Sala 101", "floor": "0" },
+  "observation": "Trazer material de anotação",
+  "status": "EM_BREVE",
+  "priority": "ALTA",
+  "cleanupDuration": "PT30M"
 }
 
 

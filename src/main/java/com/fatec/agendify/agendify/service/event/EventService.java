@@ -107,16 +107,64 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public EventDTO updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
+    public Object updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
         logger.info("Atualizando evento com ID: {}", id);
         Event existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
-
+    
+        List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
+            eventUpdateDTO.getDay(), eventUpdateDTO.getLocation().getName()
+        );
+    
+        LocalTime newStart = eventUpdateDTO.getStartTime();
+        LocalTime newEnd = eventUpdateDTO.getEndTime().plus(eventUpdateDTO.getCleanupDuration());
+    
+        for (Event conflict : conflictingEvents) {
+            if (!conflict.getId().equals(id)) { // Evita verificar o próprio evento
+                LocalTime existingStart = conflict.getStartTime();
+                LocalTime existingEnd = conflict.getEndTime().plus(conflict.getCleanupDuration());
+    
+                boolean isOverlapping = !(newEnd.isBefore(existingStart) || newStart.isAfter(existingEnd));
+    
+                if (isOverlapping) {
+                    if (eventUpdateDTO.getPriority().ordinal() > conflict.getPriority().ordinal()) {
+                        conflict.setLocation(new EventLocation("A definir", conflict.getLocation().getFloor()));
+                        eventRepository.save(conflict);
+                    } else if (eventUpdateDTO.getPriority().ordinal() < conflict.getPriority().ordinal()) {
+                        eventUpdateDTO.setLocation(new EventLocation("A definir", eventUpdateDTO.getLocation().getFloor()));
+                    } else {
+                        return new EventConflictDTO(
+                            "Conflito de eventos com mesma prioridade. Escolha uma ação.",
+                            EventMapper.toDTO(conflict)
+                        );
+                    }
+                }
+            }
+        }
+    
         EventMapper.updateEntityFromDTO(existingEvent, eventUpdateDTO);
         existingEvent.setLastModifiedAt(Instant.now());
-        
+    
         return EventMapper.toDTO(eventRepository.save(existingEvent));
     }
+    
+    public EventDTO resolveUpdateConflict(String conflictingEventId, EventUpdateDTO updatedEventDTO) {
+        Event conflictingEvent = eventRepository.findById(conflictingEventId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento conflitante não encontrado"));
+    
+     
+        conflictingEvent.setLocation(new EventLocation("A definir", conflictingEvent.getLocation().getFloor()));
+        eventRepository.save(conflictingEvent);
+    
+        Event updatedEvent = eventRepository.findById(conflictingEventId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento atualizado não encontrado"));
+    
+        EventMapper.updateEntityFromDTO(updatedEvent, updatedEventDTO);
+        updatedEvent.setLastModifiedAt(Instant.now());
+    
+        return EventMapper.toDTO(eventRepository.save(updatedEvent));
+    }
+    
 
     public void deleteEvent(String id) {
         logger.info("Deletando evento com ID: {}", id);

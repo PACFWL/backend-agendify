@@ -51,11 +51,18 @@ public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCre
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventDTO> updateEvent(
+    public ResponseEntity<?> updateEvent(
             @PathVariable String id,
             @RequestBody @Valid EventUpdateDTO eventUpdateDTO) {
-        return ResponseEntity.ok(eventService.updateEvent(id, eventUpdateDTO));
+        Object response = eventService.updateEvent(id, eventUpdateDTO);
+    
+        if (response instanceof EventConflictDTO) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        } else {
+            return ResponseEntity.ok(response);
+        }
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteEvent(@PathVariable String id) {
@@ -71,6 +78,12 @@ public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCre
             @RequestBody @Valid EventCreateDTO newEventDTO) {
         return ResponseEntity.ok(eventService.resolveEventConflict(existingEventId, newEventDTO));
     }
-    
 
+    @PostMapping("/resolve-update/{conflictingEventId}")
+public ResponseEntity<EventDTO> resolveUpdateConflict(
+        @PathVariable String conflictingEventId,
+        @RequestBody @Valid EventUpdateDTO updatedEventDTO) {
+    return ResponseEntity.ok(eventService.resolveUpdateConflict(conflictingEventId, updatedEventDTO));
 }
+}
+

@@ -1,17 +1,19 @@
 package com.fatec.agendify.agendify.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Floor {
     GROUND_FLOOR("Térreo"),
     FIRST_FLOOR("1º Andar"),
     SECOND_FLOOR("2º Andar"),
-    THIRD_FLOOR("3º Andar");
+    BLOCK_C_FLOOR("Bloco C");
 
     private final String description;
 
     Floor(String description) {
         this.description = description;
     }
-
+    @JsonValue
     public String getDescription() {
         return description;
     }
