@@ -106,9 +106,13 @@ public class EventService {
                 .map(EventMapper::toDTO)
                 .collect(Collectors.toList());
     }
-
+   
     public Object updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
         logger.info("Atualizando evento com ID: {}", id);
+
+    if (eventUpdateDTO.getId() != null && !eventUpdateDTO.getId().equals(id)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID no corpo da requisição não corresponde ao ID na URL");
+    }
         Event existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
     
@@ -120,7 +124,7 @@ public class EventService {
         LocalTime newEnd = eventUpdateDTO.getEndTime().plus(eventUpdateDTO.getCleanupDuration());
     
         for (Event conflict : conflictingEvents) {
-            if (!conflict.getId().equals(id)) { // Evita verificar o próprio evento
+            if (!conflict.getId().equals(id)) { 
                 LocalTime existingStart = conflict.getStartTime();
                 LocalTime existingEnd = conflict.getEndTime().plus(conflict.getCleanupDuration());
     
@@ -169,9 +173,6 @@ public class EventService {
         return EventMapper.toDTO(eventRepository.save(updatedEvent));
     }
     
-    
-    
-
     public void deleteEvent(String id) {
         logger.info("Deletando evento com ID: {}", id);
         if (!eventRepository.existsById(id)) {
