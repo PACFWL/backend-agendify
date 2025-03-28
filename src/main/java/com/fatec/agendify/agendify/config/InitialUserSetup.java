@@ -1,6 +1,6 @@
 package com.fatec.agendify.agendify.config;
 
-import com.fatec.agendify.agendify.model.User;
+import com.fatec.agendify.agendify.model.user.User;
 import com.fatec.agendify.agendify.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -22,19 +22,29 @@ public class InitialUserSetup {
                 List<User> users = List.of(
                     User.builder()
                         .id(UUID.randomUUID().toString())
-                        .name("Teste A")
-                        .email("abcdef@example.com")
-                        .password(passwordEncoder.encode("admin123")) 
-                        .role(User.Role.ADMIN)
+                        .name("Master")
+                        .email("master@gmail.com")
+                        .password(passwordEncoder.encode("master123")) 
+                        .role(User.Role.MASTER)
                         .createdAt(Instant.now())
                         .lastModifiedAt(Instant.now())
                         .build(),
                     
                     User.builder()
                         .id(UUID.randomUUID().toString())
-                        .name("Teste B")
-                        .email("teste@gmail.com")
-                        .password(passwordEncoder.encode("Qwerty")) 
+                        .name("Requester")
+                        .email("requester@gmail.com")
+                        .password(passwordEncoder.encode("requester123")) 
+                        .role(User.Role.REQUESTER)
+                        .createdAt(Instant.now())
+                        .lastModifiedAt(Instant.now())
+                        .build(),
+
+                    User.builder()
+                        .id(UUID.randomUUID().toString())
+                        .name("User")
+                        .email("user@gmail.com")
+                        .password(passwordEncoder.encode("user123")) 
                         .role(User.Role.USER)
                         .createdAt(Instant.now())
                         .lastModifiedAt(Instant.now())

@@ -3,7 +3,7 @@ package com.fatec.agendify.agendify.mapper;
 import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
-import com.fatec.agendify.agendify.model.Event;
+import com.fatec.agendify.agendify.model.event.Event;
 
 import java.time.Instant;
 import java.util.List;

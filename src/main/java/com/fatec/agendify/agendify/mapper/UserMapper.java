@@ -3,7 +3,7 @@ package com.fatec.agendify.agendify.mapper;
 import com.fatec.agendify.agendify.dto.user.UserCreateDTO;
 import com.fatec.agendify.agendify.dto.user.UserDTO;
 import com.fatec.agendify.agendify.dto.user.UserUpdateDTO;
-import com.fatec.agendify.agendify.model.User;
+import com.fatec.agendify.agendify.model.user.User;
 
 import java.time.Instant;
 import java.util.List;

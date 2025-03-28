@@ -1,7 +1,8 @@
 package com.fatec.agendify.agendify.repository;
 
-import com.fatec.agendify.agendify.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.fatec.agendify.agendify.model.user.User;
 
 import java.util.List;
 import java.util.Optional;

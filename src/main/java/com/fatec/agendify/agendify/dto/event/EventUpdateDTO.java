@@ -1,10 +1,5 @@
 package com.fatec.agendify.agendify.dto.event;
 
-import com.fatec.agendify.agendify.model.EventLocation;
-import com.fatec.agendify.agendify.model.EventMode;
-import com.fatec.agendify.agendify.model.EventPriority;
-import com.fatec.agendify.agendify.model.EventStatus;
-
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +10,11 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import com.fatec.agendify.agendify.model.event.EventLocation;
+import com.fatec.agendify.agendify.model.event.EventMode;
+import com.fatec.agendify.agendify.model.event.EventPriority;
+import com.fatec.agendify.agendify.model.event.EventStatus;
 
 @Data
 @NoArgsConstructor

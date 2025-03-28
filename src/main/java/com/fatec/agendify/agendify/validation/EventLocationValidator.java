@@ -1,7 +1,7 @@
 package com.fatec.agendify.agendify.validation;
 
-import com.fatec.agendify.agendify.model.Event;
-import com.fatec.agendify.agendify.model.EventMode;
+import com.fatec.agendify.agendify.model.event.Event;
+import com.fatec.agendify.agendify.model.event.EventMode;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

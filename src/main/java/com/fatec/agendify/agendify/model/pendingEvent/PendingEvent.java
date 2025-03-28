@@ -1,4 +1,4 @@
-package com.fatec.agendify.agendify.model;
+package com.fatec.agendify.agendify.model.pendingEvent;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,6 +11,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fatec.agendify.agendify.model.event.EventLocation;
+import com.fatec.agendify.agendify.model.event.EventMode;
+import com.fatec.agendify.agendify.model.event.EventPriority;
+import com.fatec.agendify.agendify.model.event.EventStatus;
 import com.fatec.agendify.agendify.validation.ValidEventLocation;
 import java.time.Duration;
 
@@ -21,18 +25,18 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Document(collection = "events")
+@Document(collection = "pending_events")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ValidEventLocation
-public class Event {
+public class PendingEvent {
 
     @Id
     @Builder.Default
     private String id = UUID.randomUUID().toString();
-
+    
     @NotBlank(message = "O nome é obrigatório.")
     private String name;
 
@@ -98,4 +102,6 @@ public class Event {
     private Duration cleanupDuration;
 
     private String observation;
+    
+    private String requesterId; // ID do usuário que solicitou o evento
 }

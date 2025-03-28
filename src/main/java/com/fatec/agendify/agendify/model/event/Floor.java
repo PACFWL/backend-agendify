@@ -1,4 +1,4 @@
-package com.fatec.agendify.agendify.model;
+package com.fatec.agendify.agendify.model.event;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

@@ -1,4 +1,4 @@
-package com.fatec.agendify.agendify.model;
+package com.fatec.agendify.agendify.model.user;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -38,7 +38,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     public enum Role {
-        ADMIN, USER
+        MASTER, REQUESTER, USER
     }
 
     @CreatedDate

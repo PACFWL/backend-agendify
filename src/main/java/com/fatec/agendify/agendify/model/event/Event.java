@@ -1,42 +1,49 @@
-package com.fatec.agendify.agendify.dto.event;
+package com.fatec.agendify.agendify.model.event;
 
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.fatec.agendify.agendify.model.event.EventLocation;
-import com.fatec.agendify.agendify.model.event.EventMode;
-import com.fatec.agendify.agendify.model.event.EventPriority;
-import com.fatec.agendify.agendify.model.event.EventStatus;
+import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fatec.agendify.agendify.validation.ValidEventLocation;
+import java.time.Duration;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+@Document(collection = "events")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EventCreateDTO {
-    
+@ValidEventLocation
+public class Event {
+
+    @Id
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
+
     @NotBlank(message = "O nome é obrigatório.")
     private String name;
 
     @NotNull(message = "O dia é obrigatório.")
-    @FutureOrPresent(message = "O evento não pode ser criado no passado.")
     private LocalDate day;
 
-    @NotNull(message = "O horário de início é obrigatório.")
+    @NotNull(message = "O início do horário é obrigatório.")
     private LocalTime startTime;
 
-    @NotNull(message = "O horário de término é obrigatório.")
-    private LocalTime endTime;
+    @NotNull(message = "O término do horário é obrigatório.")
+    private LocalTime endTime; 
 
     @NotBlank(message = "O tema é obrigatório.")
     private String theme;
@@ -52,14 +59,14 @@ public class EventCreateDTO {
 
     @NotBlank(message = "O organizador é obrigatório.")
     private String organizer;
-   
+
     @NotEmpty(message = "Os recursos são obrigatórios.")
-    private List<String> resourcesDescription; 
+    private List<String> resourcesDescription;
 
     @NotBlank(message = "A forma de divulgação é obrigatória.")
     private String disclosureMethod;
 
-    @NotEmpty(message = "As disciplinas são obrigatórias.")
+    @NotEmpty(message = "A disciplina é obrigatória.")
     private List<String> relatedSubjects;
 
     @NotBlank(message = "A estratégia de ensino é obrigatória.")
@@ -68,15 +75,22 @@ public class EventCreateDTO {
     @NotEmpty(message = "O(s) autore(s) são obrigatórios.")
     private List<String> authors;
 
-    @NotBlank(message = "O vínculo disciplinar é obrigatório.")
+    @NotBlank(message = "O vínculo disciplinar é obrigatórios.")
     private String disciplinaryLink;
 
     @NotNull(message = "O local é obrigatório.")
     private EventLocation location;
+    
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Instant createdAt; 
+    
+    @UpdateTimestamp
+    private Instant lastModifiedAt;
 
     @NotNull(message = "O estado do evento é obrigatório")
     private EventStatus status;
-
+    
     @NotNull(message = "A prioridade é obrigatória")
     private EventPriority priority;
 

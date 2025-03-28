@@ -6,7 +6,7 @@ import com.fatec.agendify.agendify.dto.user.UserDTO;
 import com.fatec.agendify.agendify.dto.user.UserLoginDTO;
 import com.fatec.agendify.agendify.dto.user.UserUpdateDTO;
 import com.fatec.agendify.agendify.mapper.UserMapper;
-import com.fatec.agendify.agendify.model.User;
+import com.fatec.agendify.agendify.model.user.User;
 import com.fatec.agendify.agendify.repository.UserRepository;
 
 import io.jsonwebtoken.Jwts;
