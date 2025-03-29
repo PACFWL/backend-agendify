@@ -1,13 +1,13 @@
 ### Criar evento A no Local X
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDMwMjkyMDYsImV4cCI6MTc0MzExNTYwNn0.SxNMKcIFrMWw-umSNyk1MXn6lv74OEH4dxTVaJARUOs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNzQzMjA3ODI0LCJleHAiOjE3NDMyOTQyMjR9.IdE866lh1WXcovjxgF_i6PNMcpPnrejIoHo4zgiVEJE
 Content-Type: application/json
 
 {
-  "name": "Evento A",
+  "name": "Evento J",
   "day": "2025-04-01",
-  "startTime": "10:00:00",
-  "endTime": "12:00:00",
+  "startTime": "07:00:00",
+  "endTime": "08:00:00",
   "theme": "Tema A",
   "targetAudience": "Público A",
   "mode": "PRESENCIAL",
