@@ -50,5 +50,4 @@ public class PendingEventUpdateDTO {
     private Duration cleanupDuration;
     private String observation;
     private String requesterId;
-
 }
