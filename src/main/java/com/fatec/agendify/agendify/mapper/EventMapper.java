@@ -28,6 +28,7 @@ public class EventMapper {
                 .relatedSubjects(event.getRelatedSubjects())
                 .teachingStrategy(event.getTeachingStrategy())
                 .authors(event.getAuthors())
+                .courses(event.getCourses())
                 .disciplinaryLink(event.getDisciplinaryLink())
                 .location(event.getLocation())
                 .observation(event.getObservation())
@@ -55,6 +56,7 @@ public class EventMapper {
                 .relatedSubjects(dto.getRelatedSubjects())
                 .teachingStrategy(dto.getTeachingStrategy())
                 .authors(dto.getAuthors())
+                .courses(dto.getCourses())
                 .disciplinaryLink(dto.getDisciplinaryLink())
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
@@ -79,6 +81,7 @@ public class EventMapper {
         if (dto.getRelatedSubjects() != null) event.setRelatedSubjects(dto.getRelatedSubjects());
         if (dto.getTeachingStrategy() != null) event.setTeachingStrategy(dto.getTeachingStrategy());
         if (dto.getAuthors() != null) event.setAuthors(dto.getAuthors());
+        if (dto.getCourses() != null) event.setCourses(dto.getCourses());
         if (dto.getDisciplinaryLink() != null) event.setDisciplinaryLink(dto.getDisciplinaryLink());
         if (dto.getLocation() != null) event.setLocation(dto.getLocation());
         if (dto.getObservation() != null) event.setObservation(dto.getObservation());

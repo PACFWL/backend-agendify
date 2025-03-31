@@ -75,6 +75,9 @@ public class Event {
     @NotEmpty(message = "O(s) autore(s) são obrigatórios.")
     private List<String> authors;
 
+    @NotEmpty(message = "O(s) curso(s) são obrigatórios.")
+    private List<String> courses;
+
     @NotBlank(message = "O vínculo disciplinar é obrigatórios.")
     private String disciplinaryLink;
 

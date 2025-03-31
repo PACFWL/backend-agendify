@@ -1,6 +1,6 @@
 ### Criar evento A no Local X
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNzQzMjA3ODI0LCJleHAiOjE3NDMyOTQyMjR9.IdE866lh1WXcovjxgF_i6PNMcpPnrejIoHo4zgiVEJE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNzQzMzcwMTE5LCJleHAiOjE3NDM0NTY1MTl9.YLRdenVHocGE35PKqXTwsarIS-c0Jacw6yvwUqVj1jw
 Content-Type: application/json
 
 {
@@ -18,6 +18,7 @@ Content-Type: application/json
   "relatedSubjects": ["Matemática"],
   "teachingStrategy": "Expositiva",
   "authors": ["Autor A"],
+  "courses": ["Course A"],
   "disciplinaryLink": "Disciplina A",
   "location": {
     "name": "Local X",

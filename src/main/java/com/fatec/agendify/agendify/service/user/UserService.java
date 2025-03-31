@@ -77,7 +77,7 @@ public class UserService {
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24 horas
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) 
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
