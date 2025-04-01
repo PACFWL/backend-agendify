@@ -27,6 +27,7 @@ public class PendingEventMapper {
                 .relatedSubjects(pendingEvent.getRelatedSubjects())
                 .teachingStrategy(pendingEvent.getTeachingStrategy())
                 .authors(pendingEvent.getAuthors())
+                .courses(pendingEvent.getCourses())
                 .disciplinaryLink(pendingEvent.getDisciplinaryLink())
                 .location(pendingEvent.getLocation())
                 .observation(pendingEvent.getObservation())
@@ -54,6 +55,7 @@ public class PendingEventMapper {
                 .relatedSubjects(dto.getRelatedSubjects())
                 .teachingStrategy(dto.getTeachingStrategy())
                 .authors(dto.getAuthors())
+                .courses(dto.getCourses())
                 .disciplinaryLink(dto.getDisciplinaryLink())
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
@@ -78,6 +80,7 @@ public class PendingEventMapper {
         if (dto.getRelatedSubjects() != null) pendingEvent.setRelatedSubjects(dto.getRelatedSubjects());
         if (dto.getTeachingStrategy() != null) pendingEvent.setTeachingStrategy(dto.getTeachingStrategy());
         if (dto.getAuthors() != null) pendingEvent.setAuthors(dto.getAuthors());
+        if (dto.getCourses() != null) pendingEvent.setCourses(dto.getCourses());
         if (dto.getDisciplinaryLink() != null) pendingEvent.setDisciplinaryLink(dto.getDisciplinaryLink());
         if (dto.getLocation() != null) pendingEvent.setLocation(dto.getLocation());
         if (dto.getObservation() != null) pendingEvent.setObservation(dto.getObservation());

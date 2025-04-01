@@ -26,17 +26,16 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    @PostMapping
+    public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCreateDTO) {
+        Object response = eventService.createEvent(eventCreateDTO);
 
-@PostMapping
-public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCreateDTO) {
-    Object response = eventService.createEvent(eventCreateDTO);
-
-    if (response instanceof EventConflictDTO) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-    } else {
-        return ResponseEntity.ok(response);
+        if (response instanceof EventConflictDTO) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        } else {
+            return ResponseEntity.ok(response);
+        }
     }
-}
 
     @GetMapping("/{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable String id) {
@@ -63,7 +62,6 @@ public ResponseEntity<?> createEvent(@RequestBody @Valid EventCreateDTO eventCre
         }
     }
     
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteEvent(@PathVariable String id) {
         eventService.deleteEvent(id);
