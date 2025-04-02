@@ -9,5 +9,5 @@ import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
 
 @Repository
 public interface PendingEventRepository extends MongoRepository<PendingEvent, String> {
-    List<PendingEvent> findByRequesterId(String requesterId);
+    List<PendingEvent> findByEventRequesterId(String eventRequesterId);
 }

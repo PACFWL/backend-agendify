@@ -106,5 +106,5 @@ public class PendingEvent {
 
     private String observation;
     
-    private String requesterId;
+    private String eventRequesterId;
 }

@@ -85,5 +85,5 @@ public class PendingEventCreateDTO {
 
     private String observation;
 
-    private String requesterId;
+    private String eventRequesterId;
 }

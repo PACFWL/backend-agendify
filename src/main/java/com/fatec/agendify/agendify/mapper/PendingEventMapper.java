@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventCreateDTO;
 import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventDTO;
 import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventUpdateDTO;
 import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
@@ -34,13 +35,14 @@ public class PendingEventMapper {
                 .status(pendingEvent.getStatus())
                 .priority(pendingEvent.getPriority())
                 .cleanupDuration(pendingEvent.getCleanupDuration()) 
+                .eventRequesterId(pendingEvent.getEventRequesterId())
                 .createdAt(pendingEvent.getCreatedAt())
                 .lastModifiedAt(pendingEvent.getLastModifiedAt())
                 .build();
     }
 
-    public static PendingEventDTO toEntity(PendingEventDTO dto) {
-        return PendingEventDTO.builder()
+    public static PendingEvent toEntity(PendingEventDTO dto) {
+        return PendingEvent.builder()
                 .name(dto.getName())
                 .day(dto.getDay())
                 .startTime(dto.getStartTime())
@@ -62,6 +64,34 @@ public class PendingEventMapper {
                 .status(dto.getStatus())
                 .priority(dto.getPriority())
                 .cleanupDuration(dto.getCleanupDuration())
+                .eventRequesterId(dto.getEventRequesterId())
+                .build();
+    }
+
+    public static PendingEvent toEntity(PendingEventCreateDTO dto) {
+        return PendingEvent.builder()
+                .name(dto.getName())
+                .day(dto.getDay())
+                .startTime(dto.getStartTime())
+                .endTime(dto.getEndTime())
+                .theme(dto.getTheme())
+                .targetAudience(dto.getTargetAudience())
+                .mode(dto.getMode())
+                .environment(dto.getEnvironment())
+                .organizer(dto.getOrganizer())
+                .resourcesDescription(dto.getResourcesDescription())
+                .disclosureMethod(dto.getDisclosureMethod())
+                .relatedSubjects(dto.getRelatedSubjects())
+                .teachingStrategy(dto.getTeachingStrategy())
+                .authors(dto.getAuthors())
+                .courses(dto.getCourses())
+                .disciplinaryLink(dto.getDisciplinaryLink())
+                .location(dto.getLocation())
+                .observation(dto.getObservation())
+                .priority(dto.getPriority())
+                .cleanupDuration(dto.getCleanupDuration())
+                .createdAt(Instant.now()) 
+                .lastModifiedAt(Instant.now()) 
                 .build();
     }
 
@@ -87,6 +117,7 @@ public class PendingEventMapper {
         if (dto.getStatus() != null) pendingEvent.setStatus(dto.getStatus());
         if (dto.getPriority() != null) pendingEvent.setPriority(dto.getPriority());    
         if (dto.getCleanupDuration() != null) pendingEvent.setCleanupDuration(dto.getCleanupDuration());
+        if (dto.getEventRequesterId() != null) pendingEvent.setEventRequesterId(dto.getEventRequesterId());
 
         pendingEvent.setLastModifiedAt(Instant.now());
     }

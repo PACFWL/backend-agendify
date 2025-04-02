@@ -1,6 +1,7 @@
 package com.fatec.agendify.agendify.controller.pendingEvent;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventCreateDTO;
+import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventDTO;
+import com.fatec.agendify.agendify.mapper.PendingEventMapper;
 import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
 import com.fatec.agendify.agendify.service.pendingEvent.PendingEventService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,20 +31,28 @@ public class PendingEventController {
 
     @PostMapping
     @PreAuthorize("hasRole('REQUESTER')")
-    public ResponseEntity<PendingEvent> createPendingEvent(@RequestBody PendingEvent event) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pendingEventService.createPendingEvent(event));
+    public ResponseEntity<PendingEventDTO> createPendingEvent(@Valid @RequestBody PendingEventCreateDTO dto) {
+        PendingEvent pendingEvent = PendingEventMapper.toEntity(dto);
+        PendingEvent savedEvent = pendingEventService.createPendingEvent(pendingEvent);
+        return ResponseEntity.status(HttpStatus.CREATED).body(PendingEventMapper.toDTO(savedEvent));
     }
 
     @GetMapping
     @PreAuthorize("hasRole('MASTER')")
-    public ResponseEntity<List<PendingEvent>> getAllPendingEvents() {
-        return ResponseEntity.ok(pendingEventService.getAllPendingEvents());
+    public ResponseEntity<List<PendingEventDTO>> getAllPendingEvents() {
+        List<PendingEventDTO> dtos = pendingEventService.getAllPendingEvents().stream()
+                .map(PendingEventMapper::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/my-requests")
     @PreAuthorize("hasRole('REQUESTER')")
-    public ResponseEntity<List<PendingEvent>> getMyRequests() {
-        return ResponseEntity.ok(pendingEventService.getRequesterPendingEvents());
+    public ResponseEntity<List<PendingEventDTO>> getMyRequests() {
+        List<PendingEventDTO> dtos = pendingEventService.getRequesterPendingEvents().stream()
+                .map(PendingEventMapper::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping("/{id}")
