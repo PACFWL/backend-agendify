@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fatec.agendify.agendify.model.event.Event;
+import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
+import com.fatec.agendify.agendify.dto.event.EventDTO;
 
 import com.fatec.agendify.agendify.service.pendingEvent.PendingEventService;
 
@@ -24,9 +25,16 @@ public class EventApprovalController {
 
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasRole('MASTER')")
-    public ResponseEntity<Event> approveEvent(@PathVariable String id) {
-        Event event = pendingEventService.approvePendingEvent(id);
-        return ResponseEntity.ok(event);
+    public ResponseEntity<Object> approveEvent(@PathVariable String id) {
+        Object response = pendingEventService.approvePendingEvent(id);
+
+        if (response instanceof EventDTO) {
+            return ResponseEntity.ok(response);
+        } else if (response instanceof EventConflictDTO) {
+            return ResponseEntity.status(409).body(response);
+        } else {
+            return ResponseEntity.status(500).body("Erro inesperado");
+        }
     }
 
     @DeleteMapping("/{id}/reject")
@@ -35,5 +43,14 @@ public class EventApprovalController {
         pendingEventService.deletePendingEvent(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/resolve/{existingEventId}/{pendingEventId}")
+    public ResponseEntity<EventDTO> resolvePendingConflict(
+            @PathVariable String existingEventId,
+            @PathVariable String pendingEventId) {
+        EventDTO resolvedEvent = pendingEventService.resolvePendingEventConflict(existingEventId, pendingEventId);
+        return ResponseEntity.ok(resolvedEvent);
+    }
+
 }
 

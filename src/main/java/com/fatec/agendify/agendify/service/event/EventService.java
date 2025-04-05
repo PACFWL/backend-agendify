@@ -45,7 +45,7 @@ public class EventService {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cada autor(a) deve ser preenchido");
         }        
         
-            List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
+        List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
             eventCreateDTO.getDay(), eventCreateDTO.getLocation().getName()
         );
 

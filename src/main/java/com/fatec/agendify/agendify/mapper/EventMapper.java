@@ -4,6 +4,8 @@ import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.model.event.Event;
+import com.fatec.agendify.agendify.model.event.EventStatus;
+import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
 
 import java.time.Instant;
 import java.util.List;
@@ -63,6 +65,34 @@ public class EventMapper {
                 .status(dto.getStatus())
                 .priority(dto.getPriority())
                 .cleanupDuration(dto.getCleanupDuration())
+                .build();
+    }
+
+    public static Event toEntityFromPending(PendingEvent pendingEvent) {
+        return Event.builder()
+                .name(pendingEvent.getName())
+                .day(pendingEvent.getDay())
+                .startTime(pendingEvent.getStartTime())
+                .endTime(pendingEvent.getEndTime())
+                .theme(pendingEvent.getTheme())
+                .targetAudience(pendingEvent.getTargetAudience())
+                .mode(pendingEvent.getMode())
+                .environment(pendingEvent.getEnvironment())
+                .organizer(pendingEvent.getOrganizer())
+                .resourcesDescription(pendingEvent.getResourcesDescription())
+                .disclosureMethod(pendingEvent.getDisclosureMethod())
+                .relatedSubjects(pendingEvent.getRelatedSubjects())
+                .teachingStrategy(pendingEvent.getTeachingStrategy())
+                .authors(pendingEvent.getAuthors())
+                .courses(pendingEvent.getCourses())
+                .disciplinaryLink(pendingEvent.getDisciplinaryLink())
+                .location(pendingEvent.getLocation())
+                .observation(pendingEvent.getObservation())
+                .status(EventStatus.APROVADO)
+                .priority(pendingEvent.getPriority())
+                .cleanupDuration(pendingEvent.getCleanupDuration())
+                .createdAt(Instant.now())
+                .lastModifiedAt(Instant.now())
                 .build();
     }
 

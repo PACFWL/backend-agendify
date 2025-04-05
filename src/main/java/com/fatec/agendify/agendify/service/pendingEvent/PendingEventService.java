@@ -1,13 +1,18 @@
 package com.fatec.agendify.agendify.service.pendingEvent;
 
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
+import com.fatec.agendify.agendify.dto.event.EventDTO;
+import com.fatec.agendify.agendify.mapper.EventMapper;
 import com.fatec.agendify.agendify.model.event.Event;
-import com.fatec.agendify.agendify.model.event.EventStatus;
+import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
 import com.fatec.agendify.agendify.repository.EventRepository;
 import com.fatec.agendify.agendify.repository.PendingEventRepository;
@@ -47,39 +52,82 @@ public class PendingEventService {
     }
     
 
-    public Event approvePendingEvent(String pendingEventId) {
-        PendingEvent pendingEvent = pendingEventRepository.findById(pendingEventId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pending event not found"));
+public Object approvePendingEvent(String id) {
 
-        Event event = Event.builder()
-                .name(pendingEvent.getName())
-                .day(pendingEvent.getDay())
-                .startTime(pendingEvent.getStartTime())
-                .endTime(pendingEvent.getEndTime())
-                .theme(pendingEvent.getTheme())
-                .targetAudience(pendingEvent.getTargetAudience())
-                .mode(pendingEvent.getMode())
-                .environment(pendingEvent.getEnvironment())
-                .organizer(pendingEvent.getOrganizer())
-                .resourcesDescription(pendingEvent.getResourcesDescription())
-                .disclosureMethod(pendingEvent.getDisclosureMethod())
-                .relatedSubjects(pendingEvent.getRelatedSubjects())
-                .teachingStrategy(pendingEvent.getTeachingStrategy())
-                .authors(pendingEvent.getAuthors())
-                .courses(pendingEvent.getCourses())
-                .disciplinaryLink(pendingEvent.getDisciplinaryLink())
-                .location(pendingEvent.getLocation())
-                .observation(pendingEvent.getObservation())
-                .status(EventStatus.APROVADO) 
-                .priority(pendingEvent.getPriority())
-                .cleanupDuration(pendingEvent.getCleanupDuration())
-                .createdAt(pendingEvent.getCreatedAt())
-                .lastModifiedAt(pendingEvent.getLastModifiedAt())
-                .build();
+    PendingEvent pendingEvent = pendingEventRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
 
-        eventRepository.save(event);
-        pendingEventRepository.deleteById(pendingEventId);
-        return event;
+    if (pendingEvent.getResourcesDescription().stream().anyMatch(String::isBlank)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada recurso deve ser preenchido");
     }
+
+    if (pendingEvent.getRelatedSubjects().stream().anyMatch(String::isBlank)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada disciplina deve ser preenchida");
+    }
+
+    if (pendingEvent.getAuthors().stream().anyMatch(String::isBlank)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada autor(a) deve ser preenchido");
+    }
+
+    List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
+        pendingEvent.getDay(), pendingEvent.getLocation().getName()
+    );
+
+    LocalTime newStart = pendingEvent.getStartTime();
+    LocalTime newEnd = pendingEvent.getEndTime().plus(pendingEvent.getCleanupDuration());
+
+    for (Event existingEvent : conflictingEvents) {
+        LocalTime existingStart = existingEvent.getStartTime();
+        LocalTime existingEnd = existingEvent.getEndTime().plus(existingEvent.getCleanupDuration());
+
+        boolean isOverlapping = !(newEnd.isBefore(existingStart) || newStart.isAfter(existingEnd));
+
+        if (isOverlapping) {
+            if (pendingEvent.getPriority().ordinal() > existingEvent.getPriority().ordinal()) {
+                existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
+                eventRepository.save(existingEvent);
+            } else if (pendingEvent.getPriority().ordinal() < existingEvent.getPriority().ordinal()) {
+                pendingEvent.setLocation(new EventLocation("A definir", pendingEvent.getLocation().getFloor()));
+            } else {
+                return new EventConflictDTO(
+                    "Conflito de eventos com mesma prioridade. Escolha uma ação.",
+                    EventMapper.toDTO(existingEvent)
+                );
+            }
+        }
+    }
+
+    Event createdEvent = EventMapper.toEntityFromPending(pendingEvent);
+    createdEvent.setCreatedAt(Instant.now());
+    createdEvent.setLastModifiedAt(Instant.now());
+
+    eventRepository.save(createdEvent);
+    pendingEventRepository.deleteById(id);
+
+    return EventMapper.toDTO(createdEvent);
+}
+
+
+    public EventDTO resolvePendingEventConflict(String existingEventId, String pendingEventId) {
+    Event existingEvent = eventRepository.findById(existingEventId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento existente não encontrado"));
+
+    PendingEvent pendingEvent = pendingEventRepository.findById(pendingEventId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
+
+    
+    existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
+    eventRepository.save(existingEvent);
+
+    Event newEvent = EventMapper.toEntityFromPending(pendingEvent);
+    newEvent.setCreatedAt(Instant.now());
+    newEvent.setLastModifiedAt(Instant.now());
+    Event savedEvent = eventRepository.save(newEvent);
+
+    pendingEventRepository.deleteById(pendingEventId);
+
+    return EventMapper.toDTO(savedEvent);
+}
+
 }
 

@@ -1,13 +1,13 @@
 ### Criar um evento pendente
 POST http://localhost:8080/pending-events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGFkY2NkYi1iZGJiLTQ5ZGMtODk2ZC1lMTY3ODcyNjllZTIiLCJlbWFpbCI6InRlc3RlYUBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODE5NjM5LCJleHAiOjE3NDM5MDYwMzl9.LVKdpq9XucU1wXkxUcArNJC5tMO1ALndeYODQABQojU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODgyNjYwLCJleHAiOjE3NDM5NjkwNjB9.fQYeFxuFGo5dDHn37vYcQaKLFC7g5yG8aRkfI1kzNjg
 Content-Type: application/json
 
 {
-  "name": "Workshop de Spring Boot H",
-  "day": "2025-10-02",
-  "startTime": "18:00",
-  "endTime": "19:00",
+  "name": "Workshop de Spring Boot H 4",
+  "day": "2025-10-10",
+  "startTime": "04:00",
+  "endTime": "09:00",
   "theme": "Desenvolvimento Web",
   "targetAudience": "Estudantes e desenvolvedores",
   "mode": "PRESENCIAL",
@@ -29,15 +29,15 @@ Content-Type: application/json
 
 ### Buscar todos os eventos pendentes (Apenas MASTER)
 GET http://localhost:8080/pending-events
-Authorization: Bearer YOUR_MASTER_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODc2NDczLCJleHAiOjE3NDM5NjI4NzN9.fwnKoOBakQlT_8Y1TCdHyGUHAKA5rtb0OZBQx5AffIk
 
 ### Buscar eventos pendentes do solicitante (Apenas REQUESTER)
 GET http://localhost:8080/pending-events/my-requests
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODIwNzAwLCJleHAiOjE3NDM5MDcxMDB9.b9rUCHlISWwekRHm-a6OO7gkvRbdNiuVagLmiAjdUrA
 
 ### Aprovar um evento pendente (Apenas MASTER)
-POST http://localhost:8080/event-approval/{id}/approve
-Authorization: Bearer YOUR_MASTER_TOKEN_HERE
+POST http://localhost:8080/event-approval/3b6963dd-97a0-457c-8e36-8f0b0eb3f539/approve
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODc0NDA3LCJleHAiOjE3NDM5NjA4MDd9.OqaZsSYxU0F79BGmCYOVjTNJGStmGbvX1hJJ6IuQmWM
 
 ### Rejeitar um evento pendente (Apenas MASTER)
 DELETE http://localhost:8080/event-approval/{id}/reject
@@ -48,8 +48,13 @@ DELETE http://localhost:8080/pending-events/{id}
 Authorization: Bearer YOUR_REQUESTER_TOKEN_HERE
 
 ###
-POST http://localhost:8080/event-approval/77ee04c7-980f-4f44-8f84-3c5bce2ad0f1/approve
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODA4ODE1LCJleHAiOjE3NDM4OTUyMTV9.cQ_p2Glf1bbViinKJC4a7cf4SHrMcEqbbrlaMY2-6U4
+POST http://localhost:8080/event-approval/49a30f1c-ddad-4755-9039-b14b3bc7efff/approve
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODgyNzg4LCJleHAiOjE3NDM5NjkxODh9.TAkm5hanE_VN8uSCK1-u7IQwuGL_KrJksNaUhbNiDKU
+
+###
+POST http://localhost:8080/event-approval/resolve/6ab1a1b6-bff6-4ce4-b40f-bc580972ddb9/49a30f1c-ddad-4755-9039-b14b3bc7efff
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODgyNzg4LCJleHAiOjE3NDM5NjkxODh9.TAkm5hanE_VN8uSCK1-u7IQwuGL_KrJksNaUhbNiDKU
+
 
 ###
 GET http://localhost:8080/pending-events/my-requests
