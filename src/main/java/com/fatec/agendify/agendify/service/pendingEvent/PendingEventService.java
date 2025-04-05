@@ -22,9 +22,9 @@ public class PendingEventService {
     private final EventRepository eventRepository;
     private final UserService userService;
 
-    public PendingEvent createPendingEvent(PendingEvent event) {
-        event.setEventRequesterId(userService.getAuthenticatedUserId());
-        return pendingEventRepository.save(event);
+    public PendingEvent createPendingEvent(PendingEvent pendingEvent) {
+        pendingEvent.setEventRequesterId(userService.getAuthenticatedUserId());
+        return pendingEventRepository.save(pendingEvent);
     }
 
     public List<PendingEvent> getAllPendingEvents() {
@@ -36,8 +36,16 @@ public class PendingEventService {
     }
 
     public void deletePendingEvent(String id) {
+        PendingEvent pending = pendingEventRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    
+        if (!pending.getEventRequesterId().equals(userService.getAuthenticatedUserId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para deletar este evento");
+        }
+    
         pendingEventRepository.deleteById(id);
     }
+    
 
     public Event approvePendingEvent(String pendingEventId) {
         PendingEvent pendingEvent = pendingEventRepository.findById(pendingEventId)
@@ -65,6 +73,8 @@ public class PendingEventService {
                 .status(EventStatus.APROVADO) 
                 .priority(pendingEvent.getPriority())
                 .cleanupDuration(pendingEvent.getCleanupDuration())
+                .createdAt(pendingEvent.getCreatedAt())
+                .lastModifiedAt(pendingEvent.getLastModifiedAt())
                 .build();
 
         eventRepository.save(event);

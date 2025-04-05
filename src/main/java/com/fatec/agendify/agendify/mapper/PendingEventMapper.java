@@ -88,6 +88,7 @@ public class PendingEventMapper {
                 .disciplinaryLink(dto.getDisciplinaryLink())
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
+                .status(dto.getStatus())
                 .priority(dto.getPriority())
                 .cleanupDuration(dto.getCleanupDuration())
                 .createdAt(Instant.now()) 

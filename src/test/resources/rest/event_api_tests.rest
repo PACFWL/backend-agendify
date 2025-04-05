@@ -1,11 +1,11 @@
 # Criar um novo evento
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI5NDUzNjAsImV4cCI6MTc0MzAzMTc2MH0.OAbQva1-Zw5n_j-C0IsY5S_0l52GpAT85IRbHbMB_UU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNzQzNjQzMzAzLCJleHAiOjE3NDM3Mjk3MDN9.4R29sUne741GT0PoZ8JVztJS-YsjUFX5mFUcXTgunNE
 Content-Type: application/json
 
 {
   "name": "Evento B",
-  "day": "2025-04-01",
+  "day": "2025-04-02",
   "startTime": "12:00:00",
   "endTime": "15:00:00",
   "theme": "Tecnologia",
@@ -18,6 +18,7 @@ Content-Type: application/json
   "relatedSubjects": ["Computação", "Engenharia"],
   "teachingStrategy": "Palestra",
   "authors": ["Prof. João"],
+  "courses": ["Arte"],
   "disciplinaryLink": "Informática",
   "location": { "name": "Sala 101", "floor": "0" },
   "observation": "Trazer material de anotação",

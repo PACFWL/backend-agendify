@@ -11,5 +11,6 @@ public enum EventStatus {
     ADIADO,          
     ATRASADO,        
     INDEFINIDO,
-    APROVADO      
+    APROVADO,
+    PENDENTE
 }

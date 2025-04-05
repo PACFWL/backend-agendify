@@ -4,8 +4,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import io.jsonwebtoken.security.Keys;
 
 import java.io.IOException;
 import java.security.Key;
-import java.util.Collections;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String extractToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
+        System.out.println("Authorization Header: " + header);
         if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
@@ -43,29 +44,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .getBody();
     }
 
-    @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain chain
-    ) throws ServletException, IOException {
-        String token = extractToken(request);
-        if (token != null) {
-            try {
-                Claims claims = extractClaims(token);
-                String email = claims.getSubject();
-                
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        new User(email, "", Collections.emptyList()),
-                        null,
-                        Collections.emptyList()
-                );
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (Exception e) {
-                System.out.println("Erro ao validar token: " + e.getMessage());
-            }
+@Override
+protected void doFilterInternal(
+        @NonNull HttpServletRequest request,
+        @NonNull HttpServletResponse response,
+        @NonNull FilterChain chain
+) throws ServletException, IOException {
+    String token = extractToken(request);
+    if (token != null) {
+        try {
+            Claims claims = extractClaims(token);
+            String userId = claims.getSubject();
+
+            @SuppressWarnings("unchecked")
+            List<String> roles = claims.get("roles", List.class);
+
+            List<SimpleGrantedAuthority> authorities = roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) 
+                    .toList();
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    new org.springframework.security.core.userdetails.User(userId, "", authorities),
+                    token,
+                    authorities
+            );
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
+            System.out.println("Erro ao validar token: " + e.getMessage());
         }
-        chain.doFilter(request, response);
     }
+    chain.doFilter(request, response);
+}
+
 }

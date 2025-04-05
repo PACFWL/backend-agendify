@@ -22,11 +22,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-
-
 
 @Service
 public class UserService {
@@ -80,12 +78,15 @@ public class UserService {
 
     private String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getId()) 
+                .claim("email", user.getEmail()) 
+                .claim("roles", List.of(user.getRole().name())) 
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) 
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+    
     
     public List<UserDTO> getUsersByRole(String role) {
         return userRepository.findByRole(User.Role.valueOf(role.toUpperCase())).stream()
@@ -93,20 +94,35 @@ public class UserService {
                 .toList();
     }
 
-    public String getAuthenticatedUserId() {
+   public String getAuthenticatedUserId() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+    
     if (authentication == null || !authentication.isAuthenticated()) {
         throw new RuntimeException("Usuário não autenticado");
     }
 
-    String token = (String) authentication.getCredentials(); 
+    String token = null;
+
+    if (authentication.getCredentials() instanceof String jwt) {
+        token = jwt;
+    } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+        return userDetails.getUsername();
+    }
+
+    if (token == null || token.trim().isEmpty()) {
+        throw new IllegalArgumentException("JWT String argument cannot be null or empty.");
+    }
+
     Claims claims = Jwts.parserBuilder()
             .setSigningKey(getSigningKey())
             .build()
             .parseClaimsJws(token)
             .getBody();
 
+            System.out.println("Roles no JWT: " + claims.get("roles"));
+
     return claims.getSubject(); 
+
 }
 }

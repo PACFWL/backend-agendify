@@ -31,8 +31,8 @@ public class PendingEventController {
 
     @PostMapping
     @PreAuthorize("hasRole('REQUESTER')")
-    public ResponseEntity<PendingEventDTO> createPendingEvent(@Valid @RequestBody PendingEventCreateDTO dto) {
-        PendingEvent pendingEvent = PendingEventMapper.toEntity(dto);
+    public ResponseEntity<PendingEventDTO> createPendingEvent(@Valid @RequestBody PendingEventCreateDTO pendingEventCreateDTO) {
+        PendingEvent pendingEvent = PendingEventMapper.toEntity(pendingEventCreateDTO);
         PendingEvent savedEvent = pendingEventService.createPendingEvent(pendingEvent);
         return ResponseEntity.status(HttpStatus.CREATED).body(PendingEventMapper.toDTO(savedEvent));
     }

@@ -1,0 +1,86 @@
+### Criar um evento pendente
+POST http://localhost:8080/pending-events
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGFkY2NkYi1iZGJiLTQ5ZGMtODk2ZC1lMTY3ODcyNjllZTIiLCJlbWFpbCI6InRlc3RlYUBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODE5NjM5LCJleHAiOjE3NDM5MDYwMzl9.LVKdpq9XucU1wXkxUcArNJC5tMO1ALndeYODQABQojU
+Content-Type: application/json
+
+{
+  "name": "Workshop de Spring Boot H",
+  "day": "2025-10-02",
+  "startTime": "18:00",
+  "endTime": "19:00",
+  "theme": "Desenvolvimento Web",
+  "targetAudience": "Estudantes e desenvolvedores",
+  "mode": "PRESENCIAL",
+  "environment": "Zoom",
+  "organizer": "Faculdade de Tecnologia",
+  "resourcesDescription": ["Computador", "Internet"],
+  "disclosureMethod": "Redes sociais e email",
+  "relatedSubjects": ["Programação", "Backend"],
+  "teachingStrategy": "Aulas práticas",
+  "authors": ["João Silva"],
+  "courses": ["Engenharia de Software"],
+  "disciplinaryLink": "Tecnologia da Informação",
+  "location":  { "name": "Sala 101", "floor": "0" },
+  "status": "PENDENTE",
+  "priority": "ALTA",
+  "cleanupDuration": "PT30M",
+  "observation": "Levar notebook pessoal"
+}
+
+### Buscar todos os eventos pendentes (Apenas MASTER)
+GET http://localhost:8080/pending-events
+Authorization: Bearer YOUR_MASTER_TOKEN_HERE
+
+### Buscar eventos pendentes do solicitante (Apenas REQUESTER)
+GET http://localhost:8080/pending-events/my-requests
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODIwNzAwLCJleHAiOjE3NDM5MDcxMDB9.b9rUCHlISWwekRHm-a6OO7gkvRbdNiuVagLmiAjdUrA
+
+### Aprovar um evento pendente (Apenas MASTER)
+POST http://localhost:8080/event-approval/{id}/approve
+Authorization: Bearer YOUR_MASTER_TOKEN_HERE
+
+### Rejeitar um evento pendente (Apenas MASTER)
+DELETE http://localhost:8080/event-approval/{id}/reject
+Authorization: Bearer YOUR_MASTER_TOKEN_HERE
+
+### Deletar um evento pendente (Apenas REQUESTER)
+DELETE http://localhost:8080/pending-events/{id}
+Authorization: Bearer YOUR_REQUESTER_TOKEN_HERE
+
+###
+POST http://localhost:8080/event-approval/77ee04c7-980f-4f44-8f84-3c5bce2ad0f1/approve
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODA4ODE1LCJleHAiOjE3NDM4OTUyMTV9.cQ_p2Glf1bbViinKJC4a7cf4SHrMcEqbbrlaMY2-6U4
+
+###
+GET http://localhost:8080/pending-events/my-requests
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODA4MzMwLCJleHAiOjE3NDM4OTQ3MzB9.aEWOaed22YHfhgWAR3_WoueA7A_e9I7wTBpp73irecY
+###
+
+### Criar um evento pendente
+POST http://localhost:8080/pending-events
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODExMDg1LCJleHAiOjE3NDM4OTc0ODV9.673o8RcH9gXSCBy7kDsG_nb0oYkv2Zl1LjVTQjxCqS0
+Content-Type: application/json
+
+{
+  "name": "Workshop de Spring Boot A",
+  "day": "2025-11-09",
+  "startTime": "18:00",
+  "endTime": "19:00",
+  "theme": "Desenvolvimento Web",
+  "targetAudience": "Estudantes e desenvolvedores",
+  "mode": "PRESENCIAL",
+  "environment": "Zoom",
+  "organizer": "Faculdade de Tecnologia",
+  "resourcesDescription": ["Computador", "Internet"],
+  "disclosureMethod": "Redes sociais e email",
+  "relatedSubjects": ["Programação", "Backend"],
+  "teachingStrategy": "Aulas práticas",
+  "authors": ["João Silva"],
+  "courses": ["Engenharia de Software"],
+  "disciplinaryLink": "Tecnologia da Informação",
+  "location":  { "name": "Sala 101", "floor": "0" },
+  "status": "PENDENTE",
+  "priority": "ALTA",
+  "cleanupDuration": "PT30M",
+  "observation": "Levar notebook pessoal"
+}

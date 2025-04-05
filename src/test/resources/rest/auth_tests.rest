@@ -5,3 +5,32 @@ Content-Type: application/json
     "email": "master@gmail.com",
     "password": "master123"
 }
+
+###
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+    "email": "requester@gmail.com",
+    "password": "requester123"
+}
+
+###
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+    "email": "testea@gmail.com",
+    "password": "testea123"
+}
+
+###
+POST http://localhost:8080/api/users/register
+Content-Type: application/json
+
+{
+    "name": "Teste A",
+    "email": "testea@gmail.com",
+    "password": "testea123",
+    "role": "REQUESTER"
+}
