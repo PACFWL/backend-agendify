@@ -1,13 +1,13 @@
 # Criar um novo evento
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNzQzNjQzMzAzLCJleHAiOjE3NDM3Mjk3MDN9.4R29sUne741GT0PoZ8JVztJS-YsjUFX5mFUcXTgunNE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzOTYzOTAxLCJleHAiOjE3NDQwNTAzMDF9.SCcn6Hcm415c3PLx0z7eSPQet-HHULiRxbtMPSaYs2A
 Content-Type: application/json
 
 {
-  "name": "Evento B",
-  "day": "2025-04-02",
-  "startTime": "12:00:00",
-  "endTime": "15:00:00",
+  "name": "Evento W",
+  "day": "2025-04-17",
+  "startTime": "02:00:00",
+  "endTime": "04:00:00",
   "theme": "Tecnologia",
   "targetAudience": "Estudantes",
   "mode": "PRESENCIAL",
@@ -28,12 +28,12 @@ Content-Type: application/json
 }
 
 ### Buscar evento por ID
-GET http://localhost:8080/api/events/548e9816-05e8-45e2-b66f-95e89a43b5ae
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI3NzczODYsImV4cCI6MTc0Mjg2Mzc4Nn0.Kq9E7J4YPJd0Rlv-De_IouNhgeVuqm1ccwaEFigH2c4
+GET http://localhost:8080/api/events/3926acf0-5a4e-4001-9560-77fd4531ae71
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzOTYzOTAxLCJleHAiOjE3NDQwNTAzMDF9.SCcn6Hcm415c3PLx0z7eSPQet-HHULiRxbtMPSaYs2A
 
 ### Buscar todos os eventos
 GET http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI3NzczODYsImV4cCI6MTc0Mjg2Mzc4Nn0.Kq9E7J4YPJd0Rlv-De_IouNhgeVuqm1ccwaEFigH2c4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzOTYzOTAxLCJleHAiOjE3NDQwNTAzMDF9.SCcn6Hcm415c3PLx0z7eSPQet-HHULiRxbtMPSaYs2A
 
 ### Atualizar um evento existente
 POST http://localhost:8080/api/events/resolve-update/dad78626-5023-48cc-88de-b52892908e3b
@@ -62,8 +62,6 @@ Content-Type: application/json
   "priority": "ALTA",
   "cleanupDuration": "PT30M"
 }
-
-
 
 ### Deletar um evento
 DELETE http://localhost:8080/api/events/{id}

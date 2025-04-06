@@ -34,3 +34,8 @@ Content-Type: application/json
     "password": "testea123",
     "role": "REQUESTER"
 }
+
+###
+GET http://localhost:8080/api/test/test-time
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzOTUyNTIxLCJleHAiOjE3NDQwMzg5MjF9.gnc5fe_sceTCCoh_BDhRTdSeHmYzJ3ON-HTMtRKsvyU
+Content-Type: application/json
