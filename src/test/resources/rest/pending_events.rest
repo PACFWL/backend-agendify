@@ -1,11 +1,11 @@
 ### Criar um evento pendente
 POST http://localhost:8080/pending-events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODgyNjYwLCJleHAiOjE3NDM5NjkwNjB9.fQYeFxuFGo5dDHn37vYcQaKLFC7g5yG8aRkfI1kzNjg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQ0MDY5Mzg3LCJleHAiOjE3NDQxNTU3ODd9.l2gM6jRw5fKLE-ryQJjo7DtBy7HvXsVXyz4xCA7-R60
 Content-Type: application/json
 
 {
-  "name": "Workshop de Spring Boot H 4",
-  "day": "2025-10-10",
+  "name": "Testando A",
+  "day": "2025-06-01",
   "startTime": "04:00",
   "endTime": "09:00",
   "theme": "Desenvolvimento Web",
@@ -89,3 +89,98 @@ Content-Type: application/json
   "cleanupDuration": "PT30M",
   "observation": "Levar notebook pessoal"
 }
+
+### LOGIN - Usuário comum (REQUESTER)
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "email": "requester@example.com",
+  "password": "senha123"
+}
+
+### LOGIN - Usuário MASTER
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "email": "master@example.com",
+  "password": "senha123"
+}
+
+### Criar Evento Pendente (REQUESTER)
+POST http://localhost:8080/pending-events
+Authorization: Bearer 
+Content-Type: application/json
+
+{
+  "title": "Apresentação de TCC",
+  "description": "Apresentação final do TCC",
+  "day": "2025-04-20",
+  "startTime": "10:00",
+  "endTime": "11:00",
+  "cleanupDuration": "00:15:00",
+  "location": {
+    "name": "Sala 101",
+    "floor": 1
+  },
+  "priority": "ALTA",
+  "resourcesDescription": ["Projetor", "Quadro branco"],
+  "relatedSubjects": ["Engenharia de Software"],
+  "authors": ["João Silva"]
+}
+
+### Buscar todos os eventos pendentes (MASTER)
+GET http://localhost:8080/pending-events
+Authorization: Bearer
+
+### Atualizar evento pendente (MASTER ou REQUESTER) - Substitua ID
+PUT http://localhost:8080/pending-events/660005b4-cedf-4a44-8427-d62a7d6fa602
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQ0MDY5ODEzLCJleHAiOjE3NDQxNTYyMTN9.G7QlZG1P3J34FzXl9FktcZ1X9Feqp2EzyKckyKCyvEM
+Content-Type: application/json
+
+{
+  "name": "Questão C",
+  "day": "2025-06-08",
+  "startTime": "08:00",
+  "endTime": "19:00",
+  "theme": "Desenvolvimento Web",
+  "targetAudience": "Estudantes e desenvolvedores",
+  "mode": "PRESENCIAL",
+  "environment": "Zoom",
+  "organizer": "Faculdade de Tecnologia",
+  "resourcesDescription": ["Computador", "Internet"],
+  "disclosureMethod": "Redes sociais e email",
+  "relatedSubjects": ["Programação", "Backend"],
+  "teachingStrategy": "Aulas práticas",
+  "authors": ["João Silva"],
+  "courses": ["Engenharia de Software"],
+  "disciplinaryLink": "Tecnologia da Informação",
+  "location":  { "name": "Sala 101", "floor": "0" },
+  "status": "PENDENTE",
+  "priority": "CRITICA",
+  "cleanupDuration": "PT47M",
+  "observation": "Levar notebook pessoal"
+}
+
+### Deletar evento pendente (REQUESTER ou MASTER) - Substitua ID
+DELETE http://localhost:8080/pending-events/660005b4-cedf-4a44-8427-d62a7d6fa602
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MDY5OTMyLCJleHAiOjE3NDQxNTYzMzJ9.GR8zGKQwK2AiSJM2kVIPFkwOtzcGccVW_c_L3LgWdJw
+
+### Buscar eventos pendentes do REQUESTER
+GET http://localhost:8080/pending-events/my-requests
+Authorization: Bearer 
+
+### Aprovar evento pendente (MASTER)
+POST http://localhost:8080/event-approval//approve
+Authorization: Bearer 
+
+### Rejeitar evento pendente (MASTER)
+DELETE http://localhost:8080/event-approval//reject
+Authorization: Bearer 
+
+### Resolver conflito entre eventos
+POST http://localhost:8080/event-approval/resolve//
+Authorization: Bearer 
+
+

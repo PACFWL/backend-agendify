@@ -10,10 +10,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
+import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventUpdateDTO;
 import com.fatec.agendify.agendify.mapper.EventMapper;
+import com.fatec.agendify.agendify.mapper.PendingEventMapper;
 import com.fatec.agendify.agendify.model.event.Event;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
+import com.fatec.agendify.agendify.model.user.User;
 import com.fatec.agendify.agendify.repository.EventRepository;
 import com.fatec.agendify.agendify.repository.PendingEventRepository;
 import com.fatec.agendify.agendify.service.user.UserService;
@@ -40,6 +43,23 @@ public class PendingEventService {
         return pendingEventRepository.findByEventRequesterId(userService.getAuthenticatedUserId());
     }
 
+    public PendingEvent updatePendingEvent(String id, PendingEventUpdateDTO pendingEventUpdateDTO) {
+        PendingEvent existingEvent = pendingEventRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
+    
+        String authenticatedUserId = userService.getAuthenticatedUserId();
+        User.Role role = userService.getAuthenticatedUserRole();
+    
+        boolean isRequester = existingEvent.getEventRequesterId().equals(authenticatedUserId);
+    
+        if (!(isRequester || role == User.Role.MASTER)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para atualizar este evento");
+        }
+    
+        PendingEventMapper.updateEntityFromDTO(existingEvent, pendingEventUpdateDTO);
+        return pendingEventRepository.save(existingEvent);
+    }
+
     public void deletePendingEvent(String id) {
         PendingEvent pending = pendingEventRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -47,7 +67,7 @@ public class PendingEventService {
         if (!pending.getEventRequesterId().equals(userService.getAuthenticatedUserId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para deletar este evento");
         }
-    
+             
         pendingEventRepository.deleteById(id);
     }
     
@@ -107,7 +127,6 @@ public Object approvePendingEvent(String id) {
     return EventMapper.toDTO(createdEvent);
 }
 
-
     public EventDTO resolvePendingEventConflict(String existingEventId, String pendingEventId) {
     Event existingEvent = eventRepository.findById(existingEventId)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento existente não encontrado"));
@@ -130,4 +149,3 @@ public Object approvePendingEvent(String id) {
 }
 
 }
-

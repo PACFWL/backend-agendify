@@ -125,4 +125,43 @@ public class UserService {
     return claims.getSubject(); 
 
 }
+
+public User.Role getAuthenticatedUserRole() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if (authentication == null || !authentication.isAuthenticated()) {
+        throw new RuntimeException("Usuário não autenticado");
+    }
+
+    String token = null;
+
+    if (authentication.getCredentials() instanceof String jwt) {
+        token = jwt;
+    } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+        // Se estiver usando UserDetails, você pode inferir o role dos authorities:
+        String roleName = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(grantedAuthority -> grantedAuthority.getAuthority().replace("ROLE_", ""))
+                .orElse("REQUESTER");
+        return User.Role.valueOf(roleName);
+    }
+
+    if (token == null || token.trim().isEmpty()) {
+        throw new IllegalArgumentException("JWT String argument cannot be null or empty.");
+    }
+
+    Claims claims = Jwts.parserBuilder()
+            .setSigningKey(getSigningKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+
+    @SuppressWarnings("unchecked")
+    List<String> roles = claims.get("roles", List.class);
+    
+    String roleName = roles != null && !roles.isEmpty() ? roles.get(0) : "REQUESTER";
+
+    return User.Role.valueOf(roleName);
+}
+
 }
