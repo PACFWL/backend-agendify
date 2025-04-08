@@ -43,6 +43,20 @@ public class PendingEventService {
         return pendingEventRepository.findByEventRequesterId(userService.getAuthenticatedUserId());
     }
 
+    /**public PendingEvent getPendingEventById(String id) {
+        PendingEvent event = pendingEventRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
+    
+        String authUserId = userService.getAuthenticatedUserId();
+        User.Role role = userService.getAuthenticatedUserRole();
+    
+        if (!event.getEventRequesterId().equals(authUserId) && role != User.Role.MASTER) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para ver este evento");
+        }
+    
+        return event;
+    }
+    **/
     public PendingEvent updatePendingEvent(String id, PendingEventUpdateDTO pendingEventUpdateDTO) {
         PendingEvent existingEvent = pendingEventRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
@@ -64,13 +78,14 @@ public class PendingEventService {
         PendingEvent pending = pendingEventRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     
-        if (!pending.getEventRequesterId().equals(userService.getAuthenticatedUserId())) {
+        User.Role role = userService.getAuthenticatedUserRole();
+    
+        if (!(pending.getEventRequesterId().equals(userService.getAuthenticatedUserId()) || role == User.Role.MASTER)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para deletar este evento");
         }
-             
-        pendingEventRepository.deleteById(id);
-    }
     
+        pendingEventRepository.deleteById(id);
+    }    
 
 public Object approvePendingEvent(String id) {
 

@@ -47,6 +47,15 @@ public class PendingEventController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
+    
+/** 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
+    public ResponseEntity<PendingEventDTO> getPendingEventById(@PathVariable String id) {
+        PendingEvent event = pendingEventService.getPendingEventById(id);
+        return ResponseEntity.ok(PendingEventMapper.toDTO(event));
+    }
+        **/
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
@@ -68,7 +77,7 @@ public class PendingEventController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('REQUESTER')")
+    @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
     public ResponseEntity<Void> deletePendingEvent(@PathVariable String id) {
         pendingEventService.deletePendingEvent(id);
         return ResponseEntity.noContent().build();

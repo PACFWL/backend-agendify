@@ -1,13 +1,13 @@
 ### Criar um evento pendente
 POST http://localhost:8080/pending-events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQ0MDY5Mzg3LCJleHAiOjE3NDQxNTU3ODd9.l2gM6jRw5fKLE-ryQJjo7DtBy7HvXsVXyz4xCA7-R60
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MDcxNjk2LCJleHAiOjE3NDQxNTgwOTZ9.-Vk_Cqyu7sHA38V-DozrGKx5xwbNzIJWumEopfkKo3Y
 Content-Type: application/json
 
 {
-  "name": "Testando A",
-  "day": "2025-06-01",
-  "startTime": "04:00",
-  "endTime": "09:00",
+  "name": "WA",
+  "day": "2025-06-11",
+  "startTime": "07:00",
+  "endTime": "08:00",
   "theme": "Desenvolvimento Web",
   "targetAudience": "Estudantes e desenvolvedores",
   "mode": "PRESENCIAL",
