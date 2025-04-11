@@ -1,5 +1,6 @@
 package com.fatec.agendify.agendify.controller.user;
 
+import com.fatec.agendify.agendify.dto.user.LoginResponseDTO;
 import com.fatec.agendify.agendify.dto.user.UserCreateDTO;
 import com.fatec.agendify.agendify.dto.user.UserDTO;
 import com.fatec.agendify.agendify.dto.user.UserLoginDTO;
@@ -7,12 +8,12 @@ import com.fatec.agendify.agendify.dto.user.UserUpdateDTO;
 import com.fatec.agendify.agendify.service.user.UserService;
 
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -27,11 +28,13 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody UserLoginDTO userDTO) {
-    String token = userService.loginUser(userDTO);
-        return ResponseEntity.ok(Map.of("token", token));
-    }
+@PostMapping("/login")
+public ResponseEntity<LoginResponseDTO> loginUser(@Valid @RequestBody UserLoginDTO userDTO) {
+    LoginResponseDTO response = userService.loginUser(userDTO);
+    return ResponseEntity.ok(response);
+}
+
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {

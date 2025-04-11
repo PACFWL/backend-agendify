@@ -1,6 +1,7 @@
 
 package com.fatec.agendify.agendify.service.user;
 
+import com.fatec.agendify.agendify.dto.user.LoginResponseDTO;
 import com.fatec.agendify.agendify.dto.user.UserCreateDTO;
 import com.fatec.agendify.agendify.dto.user.UserDTO;
 import com.fatec.agendify.agendify.dto.user.UserLoginDTO;
@@ -16,9 +17,12 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,15 +70,23 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public String loginUser(UserLoginDTO userDTO) {
-        Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
-        if (existingUser.isPresent() && passwordEncoder.matches(userDTO.getPassword(), existingUser.get().getPassword())) {
-            System.out.println("Senha fornecida: " + userDTO.getPassword());
-            System.out.println("Senha armazenada (hash): " + existingUser.get().getPassword());
-            return generateToken(existingUser.get());
-        }
-        throw new RuntimeException("Invalid email or password");
+public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
+    Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
+
+    if (existingUser.isPresent() &&
+        passwordEncoder.matches(userDTO.getPassword(), existingUser.get().getPassword())) {
+        System.out.println("Senha fornecida: " + userDTO.getPassword());
+        System.out.println("Senha armazenada (hash): " + existingUser.get().getPassword());
+        String token = generateToken(existingUser.get());
+        String role = existingUser.get().getRole().name();
+
+        return new LoginResponseDTO(token, role);
     }
+
+    throw new RuntimeException("Email ou senha inválidos.");
+}
+
+
 
     private String generateToken(User user) {
         return Jwts.builder()
@@ -138,7 +150,7 @@ public User.Role getAuthenticatedUserRole() {
     if (authentication.getCredentials() instanceof String jwt) {
         token = jwt;
     } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-        // Se estiver usando UserDetails, você pode inferir o role dos authorities:
+
         String roleName = userDetails.getAuthorities().stream()
                 .findFirst()
                 .map(grantedAuthority -> grantedAuthority.getAuthority().replace("ROLE_", ""))

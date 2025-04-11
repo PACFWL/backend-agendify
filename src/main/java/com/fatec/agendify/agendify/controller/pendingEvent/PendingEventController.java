@@ -32,7 +32,7 @@ public class PendingEventController {
     private final PendingEventService pendingEventService;
 
     @PostMapping
-    @PreAuthorize("hasRole('REQUESTER')")
+    @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
     public ResponseEntity<PendingEventDTO> createPendingEvent(@Valid @RequestBody PendingEventCreateDTO pendingEventCreateDTO) {
         PendingEvent pendingEvent = PendingEventMapper.toEntity(pendingEventCreateDTO);
         PendingEvent savedEvent = pendingEventService.createPendingEvent(pendingEvent);
@@ -47,15 +47,13 @@ public class PendingEventController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-    
-/** 
+   
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
     public ResponseEntity<PendingEventDTO> getPendingEventById(@PathVariable String id) {
-        PendingEvent event = pendingEventService.getPendingEventById(id);
-        return ResponseEntity.ok(PendingEventMapper.toDTO(event));
+        PendingEvent pendingEvent = pendingEventService.getPendingEventById(id);
+        return ResponseEntity.ok(PendingEventMapper.toDTO(pendingEvent));
     }
-        **/
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
@@ -67,8 +65,8 @@ public class PendingEventController {
         return ResponseEntity.ok(PendingEventMapper.toDTO(updated));
     }
 
-    @GetMapping("/my-requests")
-    @PreAuthorize("hasRole('REQUESTER')")
+    @GetMapping("/my-pending-events")
+    @PreAuthorize("hasAnyRole('REQUESTER', 'MASTER')")
     public ResponseEntity<List<PendingEventDTO>> getMyRequests() {
         List<PendingEventDTO> dtos = pendingEventService.getRequesterPendingEvents().stream()
                 .map(PendingEventMapper::toDTO)

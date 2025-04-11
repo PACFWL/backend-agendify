@@ -1,12 +1,12 @@
 ### Criar um evento pendente
 POST http://localhost:8080/pending-events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MDcxNjk2LCJleHAiOjE3NDQxNTgwOTZ9.-Vk_Cqyu7sHA38V-DozrGKx5xwbNzIJWumEopfkKo3Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MzM0NTA3LCJleHAiOjE3NDQ0MjA5MDd9.CC2cgwIAlV8wkhjy-4G6oUGhYFJXrdCWCfvXd8Li6NA
 Content-Type: application/json
 
 {
   "name": "WA",
-  "day": "2025-06-11",
-  "startTime": "07:00",
+  "day": "2025-06-21",
+  "startTime": "05:00",
   "endTime": "08:00",
   "theme": "Desenvolvimento Web",
   "targetAudience": "Estudantes e desenvolvedores",
@@ -45,7 +45,7 @@ Authorization: Bearer YOUR_MASTER_TOKEN_HERE
 
 ### Deletar um evento pendente (Apenas REQUESTER)
 DELETE http://localhost:8080/pending-events/{id}
-Authorization: Bearer YOUR_REQUESTER_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MzE3NTY1LCJleHAiOjE3NDQ0MDM5NjV9.-XS9Te3jQChlTneH0eiz89anyPICDrJ83uBhAiLMCc0
 
 ###
 POST http://localhost:8080/event-approval/49a30f1c-ddad-4755-9039-b14b3bc7efff/approve
@@ -183,4 +183,6 @@ Authorization: Bearer
 POST http://localhost:8080/event-approval/resolve//
 Authorization: Bearer 
 
-
+###
+GET http://localhost:8080/pending-events/660005b4-cedf-4a44-8427-d62a7d6fa602
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmOGUzNDdmZS03NDkzLTQ1YmQtOGNhNC0xYTAzY2I1NGE0ZTAiLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3NDQzMTg5MDMsImV4cCI6MTc0NDQwNTMwM30.U2uDOHDjGNXKQIX8IghyqrxYj9guZeMHsRLgVhlI7RU

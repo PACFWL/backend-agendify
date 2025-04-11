@@ -43,20 +43,22 @@ public class PendingEventService {
         return pendingEventRepository.findByEventRequesterId(userService.getAuthenticatedUserId());
     }
 
-    /**public PendingEvent getPendingEventById(String id) {
-        PendingEvent event = pendingEventRepository.findById(id)
+    public PendingEvent getPendingEventById(String id) {
+        PendingEvent pendingEvent = pendingEventRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
     
-        String authUserId = userService.getAuthenticatedUserId();
+        String authenticatedUserId = userService.getAuthenticatedUserId();
         User.Role role = userService.getAuthenticatedUserRole();
     
-        if (!event.getEventRequesterId().equals(authUserId) && role != User.Role.MASTER) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para ver este evento");
+        boolean isRequester = pendingEvent.getEventRequesterId().equals(authenticatedUserId);
+    
+        if (!(isRequester || role == User.Role.MASTER)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para visualizar este evento");
         }
     
-        return event;
+        return pendingEvent;
     }
-    **/
+
     public PendingEvent updatePendingEvent(String id, PendingEventUpdateDTO pendingEventUpdateDTO) {
         PendingEvent existingEvent = pendingEventRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
@@ -162,5 +164,4 @@ public Object approvePendingEvent(String id) {
 
     return EventMapper.toDTO(savedEvent);
 }
-
 }

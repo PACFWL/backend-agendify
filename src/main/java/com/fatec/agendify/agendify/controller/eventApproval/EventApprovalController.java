@@ -51,6 +51,5 @@ public class EventApprovalController {
         EventDTO resolvedEvent = pendingEventService.resolvePendingEventConflict(existingEventId, pendingEventId);
         return ResponseEntity.ok(resolvedEvent);
     }
-
 }
 
