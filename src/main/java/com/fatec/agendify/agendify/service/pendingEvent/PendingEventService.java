@@ -31,6 +31,11 @@ public class PendingEventService {
     private final UserService userService;
 
     public PendingEvent createPendingEvent(PendingEvent pendingEvent) {
+
+        if (pendingEvent.getStartTime().isAfter(pendingEvent.getEndTime()) ||
+        pendingEvent.getStartTime().equals(pendingEvent.getEndTime())) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+    }
         pendingEvent.setEventRequesterId(userService.getAuthenticatedUserId());
         return pendingEventRepository.save(pendingEvent);
     }
@@ -72,6 +77,12 @@ public class PendingEventService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para atualizar este evento");
         }
     
+  
+    if (pendingEventUpdateDTO.getStartTime().isAfter(pendingEventUpdateDTO.getEndTime()) ||
+        pendingEventUpdateDTO.getStartTime().equals(pendingEventUpdateDTO.getEndTime())) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+    }
+
         PendingEventMapper.updateEntityFromDTO(existingEvent, pendingEventUpdateDTO);
         return pendingEventRepository.save(existingEvent);
     }
@@ -93,6 +104,11 @@ public Object approvePendingEvent(String id) {
 
     PendingEvent pendingEvent = pendingEventRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
+
+            if (pendingEvent.getStartTime().isAfter(pendingEvent.getEndTime()) ||
+            pendingEvent.getStartTime().equals(pendingEvent.getEndTime())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+        }
 
     if (pendingEvent.getResourcesDescription().stream().anyMatch(String::isBlank)) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada recurso deve ser preenchido");
@@ -150,7 +166,6 @@ public Object approvePendingEvent(String id) {
 
     PendingEvent pendingEvent = pendingEventRepository.findById(pendingEventId)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
-
     
     existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
     eventRepository.save(existingEvent);

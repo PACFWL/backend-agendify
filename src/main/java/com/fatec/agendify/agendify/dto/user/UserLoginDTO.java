@@ -17,6 +17,4 @@ public class UserLoginDTO {
 
     @NotBlank(message = "A senha não pode estar em branco.")
     private String password;
-
-    
 }

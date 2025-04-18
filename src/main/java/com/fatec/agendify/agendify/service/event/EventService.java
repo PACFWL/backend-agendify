@@ -33,6 +33,11 @@ public class EventService {
     public Object createEvent(EventCreateDTO eventCreateDTO) {
         logger.info("Criando evento: {}", eventCreateDTO);
         
+        if (eventCreateDTO.getStartTime().isAfter(eventCreateDTO.getEndTime())
+        || eventCreateDTO.getStartTime().equals(eventCreateDTO.getEndTime())) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+    }
+
         if (eventCreateDTO.getResourcesDescription().stream().anyMatch(String::isBlank)){
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cada recurso deve ser preenchido");
         }
@@ -48,8 +53,7 @@ public class EventService {
         List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
             eventCreateDTO.getDay(), eventCreateDTO.getLocation().getName()
         );
-
-        
+       
     for (Event existingEvent : conflictingEvents) {
         LocalTime existingStart = existingEvent.getStartTime();
         LocalTime existingEnd = existingEvent.getEndTime().plus(existingEvent.getCleanupDuration());
@@ -84,7 +88,6 @@ public class EventService {
         Event existingEvent = eventRepository.findById(existingEventId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento existente não encontrado"));
     
- 
         existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
         eventRepository.save(existingEvent);
    
@@ -94,7 +97,6 @@ public class EventService {
         return EventMapper.toDTO(eventRepository.save(newEvent));
     }
     
-
     public Optional<EventDTO> getEventById(String id) {
         logger.info("Buscando evento com ID: {}", id);
         return eventRepository.findById(id).map(EventMapper::toDTO);
@@ -112,6 +114,12 @@ public class EventService {
 
     if (eventUpdateDTO.getId() != null && !eventUpdateDTO.getId().equals(id)) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID no corpo da requisição não corresponde ao ID na URL");
+    }
+    if (eventUpdateDTO.getStartTime() != null && eventUpdateDTO.getEndTime() != null) {
+        if (eventUpdateDTO.getStartTime().isAfter(eventUpdateDTO.getEndTime())
+            || eventUpdateDTO.getStartTime().equals(eventUpdateDTO.getEndTime())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+        }
     }
         Event existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
@@ -165,11 +173,9 @@ public class EventService {
         Event updatedEvent = eventRepository.findById(updatedEventId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento a ser atualizado não encontrado"));
     
-     
         EventMapper.updateEntityFromDTO(updatedEvent, updatedEventDTO);
         updatedEvent.setLastModifiedAt(Instant.now());
     
-   
         return EventMapper.toDTO(eventRepository.save(updatedEvent));
     }
     

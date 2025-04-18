@@ -1,6 +1,7 @@
 package com.fatec.agendify.agendify.mapper;
 
 import java.time.Instant;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -126,6 +127,4 @@ public class PendingEventMapper {
     public static List<PendingEventDTO> toDTOList(List<PendingEvent> pendingEventList) {
         return pendingEventList.stream().map(PendingEventMapper::toDTO).collect(Collectors.toList());
     }
-
-
 }

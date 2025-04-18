@@ -14,15 +14,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.security.Key;
+
 import java.util.Date;
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -86,8 +86,6 @@ public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
     throw new RuntimeException("Email ou senha inválidos.");
 }
 
-
-
     private String generateToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getId()) 
@@ -98,7 +96,6 @@ public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-    
     
     public List<UserDTO> getUsersByRole(String role) {
         return userRepository.findByRole(User.Role.valueOf(role.toUpperCase())).stream()
@@ -175,5 +172,4 @@ public User.Role getAuthenticatedUserRole() {
 
     return User.Role.valueOf(roleName);
 }
-
 }
