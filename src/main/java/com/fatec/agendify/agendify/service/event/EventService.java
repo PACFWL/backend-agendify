@@ -8,6 +8,8 @@ import com.fatec.agendify.agendify.mapper.EventMapper;
 import com.fatec.agendify.agendify.model.event.Event;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.repository.EventRepository;
+import com.fatec.agendify.agendify.util.EventStatusUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -97,17 +99,22 @@ public class EventService {
         return EventMapper.toDTO(eventRepository.save(newEvent));
     }
     
-    public Optional<EventDTO> getEventById(String id) {
-        logger.info("Buscando evento com ID: {}", id);
-        return eventRepository.findById(id).map(EventMapper::toDTO);
-    }
+public Optional<EventDTO> getEventById(String id) {
+    logger.info("Buscando evento com ID: {}", id);
+    return eventRepository.findById(id).map(event -> {
+        event.setStatus(EventStatusUtil.determineStatus(event));
+        return EventMapper.toDTO(event);
+    });
+}
 
-    public List<EventDTO> getAllEvents() {
-        logger.info("Buscando todos os eventos.");
-        return eventRepository.findAll().stream()
-                .map(EventMapper::toDTO)
-                .collect(Collectors.toList());
-    }
+public List<EventDTO> getAllEvents() {
+    logger.info("Buscando todos os eventos.");
+    return eventRepository.findAll().stream()
+            .peek(event -> event.setStatus(EventStatusUtil.determineStatus(event)))
+            .map(EventMapper::toDTO)
+            .collect(Collectors.toList());
+}
+
    
     public Object updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
         logger.info("Atualizando evento com ID: {}", id);
@@ -159,6 +166,7 @@ public class EventService {
     
         return EventMapper.toDTO(eventRepository.save(existingEvent));
     }
+    
     
     public EventDTO resolveUpdateConflict(String conflictingEventId, String updatedEventId, EventUpdateDTO updatedEventDTO) {
         
