@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.event.EventMode;
 import com.fatec.agendify.agendify.model.event.EventPriority;
@@ -41,6 +42,7 @@ public class PendingEventDTO {
     private Instant createdAt;     
     private Instant lastModifiedAt;
     private EventStatus status;
+    private AdministrativeEventStatus administrativeStatus;
     private EventPriority priority;
     private Duration cleanupDuration;
     private String observation;

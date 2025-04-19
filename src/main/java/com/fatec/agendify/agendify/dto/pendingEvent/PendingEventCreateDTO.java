@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.event.EventMode;
 import com.fatec.agendify.agendify.model.event.EventPriority;
@@ -76,6 +77,9 @@ public class PendingEventCreateDTO {
 
     @NotNull(message = "O estado do evento é obrigatório")
     private EventStatus status;
+
+    @NotNull(message = "O estado administrativo do evento é obrigatório")
+    private AdministrativeEventStatus administrativeStatus;
 
     @NotNull(message = "A prioridade é obrigatória")
     private EventPriority priority;

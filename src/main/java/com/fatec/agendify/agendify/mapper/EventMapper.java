@@ -3,8 +3,8 @@ package com.fatec.agendify.agendify.mapper;
 import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
+import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 import com.fatec.agendify.agendify.model.event.Event;
-import com.fatec.agendify.agendify.model.event.EventStatus;
 import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
 
 import java.time.Instant;
@@ -35,6 +35,7 @@ public class EventMapper {
                 .location(event.getLocation())
                 .observation(event.getObservation())
                 .status(event.getStatus())
+                .administrativeStatus(event.getAdministrativeStatus())
                 .priority(event.getPriority())
                 .cleanupDuration(event.getCleanupDuration()) 
                 .createdAt(event.getCreatedAt())
@@ -63,6 +64,7 @@ public class EventMapper {
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
                 .status(dto.getStatus())
+                .administrativeStatus(dto.getAdministrativeStatus())
                 .priority(dto.getPriority())
                 .cleanupDuration(dto.getCleanupDuration())
                 .build();
@@ -88,7 +90,8 @@ public class EventMapper {
                 .disciplinaryLink(pendingEvent.getDisciplinaryLink())
                 .location(pendingEvent.getLocation())
                 .observation(pendingEvent.getObservation())
-                .status(EventStatus.APROVADO)
+                .status(pendingEvent.getStatus())
+                .administrativeStatus(AdministrativeEventStatus.APROVADO)
                 .priority(pendingEvent.getPriority())
                 .cleanupDuration(pendingEvent.getCleanupDuration())
                 .createdAt(Instant.now())
@@ -116,6 +119,7 @@ public class EventMapper {
         if (dto.getLocation() != null) event.setLocation(dto.getLocation());
         if (dto.getObservation() != null) event.setObservation(dto.getObservation());
         if (dto.getStatus() != null) event.setStatus(dto.getStatus());
+        if (dto.getAdministrativeStatus() != null) event.setAdministrativeStatus(dto.getAdministrativeStatus());
         if (dto.getPriority() != null) event.setPriority(dto.getPriority());    
         if (dto.getCleanupDuration() != null) event.setCleanupDuration(dto.getCleanupDuration());
 

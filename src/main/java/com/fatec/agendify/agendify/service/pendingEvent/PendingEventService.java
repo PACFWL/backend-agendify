@@ -13,6 +13,7 @@ import com.fatec.agendify.agendify.dto.event.EventDTO;
 import com.fatec.agendify.agendify.dto.pendingEvent.PendingEventUpdateDTO;
 import com.fatec.agendify.agendify.mapper.EventMapper;
 import com.fatec.agendify.agendify.mapper.PendingEventMapper;
+import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 import com.fatec.agendify.agendify.model.event.Event;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
@@ -150,6 +151,10 @@ public Object approvePendingEvent(String id) {
         }
     }
 
+
+    pendingEvent.setAdministrativeStatus(AdministrativeEventStatus.APROVADO);
+    pendingEventRepository.save(pendingEvent);
+    
     Event createdEvent = EventMapper.toEntityFromPending(pendingEvent);
     createdEvent.setCreatedAt(Instant.now());
     createdEvent.setLastModifiedAt(Instant.now());

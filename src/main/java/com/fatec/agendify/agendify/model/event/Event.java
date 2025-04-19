@@ -91,9 +91,12 @@ public class Event {
     @UpdateTimestamp
     private Instant lastModifiedAt;
 
-    @NotNull(message = "O estado do evento é obrigatório")
+    @NotNull(message = "O estado automático do evento é obrigatório")
     private EventStatus status;
-    
+
+    @NotNull(message = "O estado administrativo do evento é obrigatório")
+    private AdministrativeEventStatus administrativeStatus;
+
     @NotNull(message = "A prioridade é obrigatória")
     private EventPriority priority;
 

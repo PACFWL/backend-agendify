@@ -11,13 +11,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.event.EventMode;
 import com.fatec.agendify.agendify.model.event.EventPriority;
 import com.fatec.agendify.agendify.model.event.EventStatus;
 import com.fatec.agendify.agendify.validation.ValidEventLocation;
 import java.time.Duration;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
@@ -96,8 +96,11 @@ public class PendingEvent {
     private Instant lastModifiedAt;
 
     @NotNull(message = "O estado do evento é obrigatório")
-    private EventStatus status;
+    private EventStatus status; 
     
+    @NotNull(message = "O estado administrativo do evento é obrigatório")
+    private AdministrativeEventStatus administrativeStatus;
+
     @NotNull(message = "A prioridade é obrigatória")
     private EventPriority priority;
 

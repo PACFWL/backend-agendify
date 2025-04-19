@@ -34,6 +34,7 @@ public class PendingEventMapper {
                 .location(pendingEvent.getLocation())
                 .observation(pendingEvent.getObservation())
                 .status(pendingEvent.getStatus())
+                .administrativeStatus(pendingEvent.getAdministrativeStatus())
                 .priority(pendingEvent.getPriority())
                 .cleanupDuration(pendingEvent.getCleanupDuration()) 
                 .eventRequesterId(pendingEvent.getEventRequesterId())
@@ -63,6 +64,7 @@ public class PendingEventMapper {
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
                 .status(dto.getStatus())
+                .administrativeStatus(dto.getAdministrativeStatus())
                 .priority(dto.getPriority())
                 .cleanupDuration(dto.getCleanupDuration())
                 .eventRequesterId(dto.getEventRequesterId())
@@ -90,6 +92,7 @@ public class PendingEventMapper {
                 .location(dto.getLocation())
                 .observation(dto.getObservation())
                 .status(dto.getStatus())
+                .administrativeStatus(dto.getAdministrativeStatus())
                 .priority(dto.getPriority())
                 .cleanupDuration(dto.getCleanupDuration())
                 .createdAt(Instant.now()) 
@@ -117,6 +120,7 @@ public class PendingEventMapper {
         if (dto.getLocation() != null) pendingEvent.setLocation(dto.getLocation());
         if (dto.getObservation() != null) pendingEvent.setObservation(dto.getObservation());
         if (dto.getStatus() != null) pendingEvent.setStatus(dto.getStatus());
+        if (dto.getAdministrativeStatus() != null) pendingEvent.setAdministrativeStatus(dto.getAdministrativeStatus());
         if (dto.getPriority() != null) pendingEvent.setPriority(dto.getPriority());    
         if (dto.getCleanupDuration() != null) pendingEvent.setCleanupDuration(dto.getCleanupDuration());
         if (dto.getEventRequesterId() != null) pendingEvent.setEventRequesterId(dto.getEventRequesterId());

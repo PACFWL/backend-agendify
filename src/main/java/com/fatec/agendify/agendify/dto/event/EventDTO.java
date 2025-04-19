@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 import com.fatec.agendify.agendify.model.event.EventLocation;
 import com.fatec.agendify.agendify.model.event.EventMode;
 import com.fatec.agendify.agendify.model.event.EventPriority;
@@ -46,6 +47,7 @@ public class EventDTO {
     private EventLocation location;
     private String observation;
     private EventStatus status;
+    private AdministrativeEventStatus administrativeStatus;
     private EventPriority priority;
     private Duration cleanupDuration;
     private Instant createdAt;

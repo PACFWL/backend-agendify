@@ -7,6 +7,7 @@ import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.mapper.EventMapper;
 import com.fatec.agendify.agendify.model.event.Event;
 import com.fatec.agendify.agendify.model.event.EventLocation;
+import com.fatec.agendify.agendify.model.event.EventStatus;
 import com.fatec.agendify.agendify.repository.EventRepository;
 import com.fatec.agendify.agendify.util.EventStatusUtil;
 
@@ -83,6 +84,7 @@ public class EventService {
         Event event = EventMapper.toEntity(eventCreateDTO);
             event.setCreatedAt(Instant.now());
             event.setLastModifiedAt(Instant.now()); 
+            event.setStatus(EventStatusUtil.determineStatus(event));
         return EventMapper.toDTO(eventRepository.save(event));
     }
 
@@ -102,17 +104,29 @@ public class EventService {
 public Optional<EventDTO> getEventById(String id) {
     logger.info("Buscando evento com ID: {}", id);
     return eventRepository.findById(id).map(event -> {
-        event.setStatus(EventStatusUtil.determineStatus(event));
+        EventStatus newStatus = EventStatusUtil.determineStatus(event);
+        if (event.getStatus() != newStatus) {
+            event.setStatus(newStatus);
+            event.setLastModifiedAt(Instant.now());
+            eventRepository.save(event); 
+        }
         return EventMapper.toDTO(event);
     });
-}
+} 
 
 public List<EventDTO> getAllEvents() {
     logger.info("Buscando todos os eventos.");
-    return eventRepository.findAll().stream()
-            .peek(event -> event.setStatus(EventStatusUtil.determineStatus(event)))
-            .map(EventMapper::toDTO)
-            .collect(Collectors.toList());
+return eventRepository.findAll().stream()
+    .peek(event -> {
+        EventStatus newStatus = EventStatusUtil.determineStatus(event);
+        if (event.getStatus() != newStatus) {
+            event.setStatus(newStatus);
+            event.setLastModifiedAt(Instant.now());
+            eventRepository.save(event); 
+        }
+    })
+    .map(EventMapper::toDTO)
+    .collect(Collectors.toList());
 }
 
    
@@ -162,8 +176,8 @@ public List<EventDTO> getAllEvents() {
         }
     
         EventMapper.updateEntityFromDTO(existingEvent, eventUpdateDTO);
+        existingEvent.setStatus(EventStatusUtil.determineStatus(existingEvent));
         existingEvent.setLastModifiedAt(Instant.now());
-    
         return EventMapper.toDTO(eventRepository.save(existingEvent));
     }
     
