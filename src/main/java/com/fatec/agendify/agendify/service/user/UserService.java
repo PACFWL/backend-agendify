@@ -78,9 +78,10 @@ public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
         System.out.println("Senha fornecida: " + userDTO.getPassword());
         System.out.println("Senha armazenada (hash): " + existingUser.get().getPassword());
         String token = generateToken(existingUser.get());
+        String name = existingUser.get().getName();
         String role = existingUser.get().getRole().name();
-
-        return new LoginResponseDTO(token, role);
+        
+        return new LoginResponseDTO(token, name, role);
     }
 
     throw new RuntimeException("Email ou senha inválidos.");
