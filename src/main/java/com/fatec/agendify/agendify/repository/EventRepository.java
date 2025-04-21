@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.fatec.agendify.agendify.model.event.Event;
 
 @Repository
-public interface EventRepository extends MongoRepository<Event, String> {
+public interface EventRepository extends MongoRepository<Event, String>, EventCustomRepository {
     List<Event> findByDayAndLocation_Name(LocalDate day, String locationName);
 }

@@ -1,0 +1,94 @@
+### Buscar todos os eventos (sem filtro)
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjQ3ODU5LCJleHAiOjE3NDUzMzQyNTl9.x_ScKAl-yxGhHME_RU6SnwgOJiZXv7crIG66kK3K2NU
+Content-Type: application/json
+
+{}
+
+### Buscar eventos por nome
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjQ3ODU5LCJleHAiOjE3NDUzMzQyNTl9.x_ScKAl-yxGhHME_RU6SnwgOJiZXv7crIG66kK3K2NU
+Content-Type: application/json
+
+{
+  "name": "TesteOne"
+}
+
+### Buscar eventos por horário de início e fim
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjUwNTY3LCJleHAiOjE3NDUzMzY5Njd9.nIEQ3Iqs5waGzaLsoX07EuywH5NgzO2frRHk8Ffs8O0
+Content-Type: application/json
+
+{
+  "startTime": "14:30:00",
+  "endTime": "16:00:00"
+}
+
+
+### Buscar eventos por intervalo de datas
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjQ3ODU5LCJleHAiOjE3NDUzMzQyNTl9.x_ScKAl-yxGhHME_RU6SnwgOJiZXv7crIG66kK3K2NU
+Content-Type: application/json
+
+{
+  "startDay": "2025-04-01",
+  "endDay": "2025-04-30"
+}
+
+### Buscar eventos por horário
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjQ3ODU5LCJleHAiOjE3NDUzMzQyNTl9.x_ScKAl-yxGhHME_RU6SnwgOJiZXv7crIG66kK3K2NU
+Content-Type: application/json
+
+{
+  "startTime": "19:25:00",
+  "endTime": "19:39:00"
+}
+
+### Buscar eventos por prioridade e modo
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjQ3ODU5LCJleHAiOjE3NDUzMzQyNTl9.x_ScKAl-yxGhHME_RU6SnwgOJiZXv7crIG66kK3K2NU
+Content-Type: application/json
+
+{
+     "startTime": "2025-04-19T22:25:00.000Z"
+}
+
+### Buscar eventos por organizador (parcial e case-insensitive)
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "organizer": "joão"
+}
+
+### Buscar por autores
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "authors": ["ana.silva", "carlos.junior"]
+}
+
+### Buscar por nome da localização e andar
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "locationName": "Auditório",
+  "locationFloor": "THIRD"
+}
+
+### Buscar por múltiplos filtros
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "name": "Apresentação",
+  "day": "2025-04-25",
+  "startTime": "14:00",
+  "endTime": "16:00",
+  "environment": "Sala 101",
+  "organizer": "lucas",
+  "priority": "MEDIUM"
+}

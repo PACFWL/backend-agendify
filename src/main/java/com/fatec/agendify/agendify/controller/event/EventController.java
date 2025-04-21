@@ -3,6 +3,7 @@ package com.fatec.agendify.agendify.controller.event;
 import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
 import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
+import com.fatec.agendify.agendify.dto.event.EventFilterDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.service.event.EventService;
 
@@ -86,5 +87,10 @@ public class EventController {
     
         return ResponseEntity.ok(eventService.resolveUpdateConflict(conflictingEventId, updatedEventId, updatedEventDTO));
     } 
+    @PostMapping("/search")
+    public ResponseEntity<List<EventDTO>> searchEvents(@RequestBody EventFilterDTO filterDTO) {
+        List<EventDTO> events = eventService.searchEvents(filterDTO);
+        return ResponseEntity.ok(events);
+    }
 }
 

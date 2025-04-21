@@ -3,6 +3,7 @@ package com.fatec.agendify.agendify.service.event;
 import com.fatec.agendify.agendify.dto.event.EventConflictDTO;
 import com.fatec.agendify.agendify.dto.event.EventCreateDTO;
 import com.fatec.agendify.agendify.dto.event.EventDTO;
+import com.fatec.agendify.agendify.dto.event.EventFilterDTO;
 import com.fatec.agendify.agendify.dto.event.EventUpdateDTO;
 import com.fatec.agendify.agendify.mapper.EventMapper;
 import com.fatec.agendify.agendify.model.event.Event;
@@ -207,5 +208,10 @@ return eventRepository.findAll().stream()
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado");
         }
         eventRepository.deleteById(id);
+    }
+    
+    public List<EventDTO> searchEvents(EventFilterDTO filterDTO) {
+        logger.info("Buscando eventos com filtros: {}", filterDTO);
+        return eventRepository.searchEvents(filterDTO);
     }
 }
