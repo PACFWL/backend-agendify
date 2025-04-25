@@ -1,0 +1,57 @@
+### Buscar eventos apenas pelo nome
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "name": "Palestra"
+}
+
+###
+
+### Buscar eventos por faixa de datas
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "startDay": "2025-05-01",
+  "endDay": "2025-05-10"
+}
+
+###
+
+### Buscar eventos por organizador e modo (presencial, remoto etc.)
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "organizer": "João",
+  "mode": "PRESENCIAL"
+}
+
+###
+
+### Buscar por autores e cursos específicos
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MzcwNjYyLCJleHAiOjE3NDU0NTcwNjJ9.zpsk6JaW_-HWlDUfwZWzWbNXMfSaesEb4lr8EZlpJd8
+Content-Type: application/json
+
+{
+  "authors": ["G"]
+}
+
+###
+
+### Buscar por múltiplos critérios
+POST http://localhost:8080/api/events/search
+Content-Type: application/json
+
+{
+  "theme": "Sustentabilidade",
+  "targetAudience": "Estudantes",
+  "disclosureMethod": "Email",
+  "environment": "Auditório",
+  "locationName": "Bloco A",
+  "locationFloor": "TERREO"
+}
+
+###

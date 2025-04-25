@@ -6,5 +6,6 @@ public enum EventStatus {
     EM_ANDAMENTO,
     EM_PAUSA,
     FINALIZADO,
-    EM_ANALISE 
+    EM_ANALISE,
+    INDETERMINADO
 }

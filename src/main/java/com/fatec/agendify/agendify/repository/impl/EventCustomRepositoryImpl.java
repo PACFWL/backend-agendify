@@ -26,7 +26,7 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         List<Criteria> criteriaList = new ArrayList<>();
 
         if (filter.getName() != null) {
-            criteriaList.add(Criteria.where("name").regex(filter.getName(), "i")); 
+            criteriaList.add(Criteria.where("name").regex(filter.getName(), "i"));
         }
         if (filter.getDay() != null) {
             criteriaList.add(Criteria.where("day").is(filter.getDay()));
@@ -40,8 +40,26 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         if (filter.getEndTime() != null) {
             criteriaList.add(Criteria.where("endTime").lte(filter.getEndTime()));
         }
+        if (filter.getTheme() != null) {
+            criteriaList.add(Criteria.where("theme").regex(filter.getTheme(), "i"));
+        }
+        if (filter.getTargetAudience() != null) {
+            criteriaList.add(Criteria.where("targetAudience").regex(filter.getTargetAudience(), "i"));
+        }
         if (filter.getMode() != null) {
             criteriaList.add(Criteria.where("mode").is(filter.getMode()));
+        }
+        if (filter.getResourcesDescription() != null && !filter.getResourcesDescription().isEmpty()) {
+            criteriaList.add(Criteria.where("resourcesDescription").in(filter.getResourcesDescription()));
+        }
+        if (filter.getDisclosureMethod() != null) {
+            criteriaList.add(Criteria.where("disclosureMethod").regex(filter.getDisclosureMethod(), "i"));
+        }
+        if (filter.getRelatedSubjects() != null && !filter.getRelatedSubjects().isEmpty()) {
+            criteriaList.add(Criteria.where("relatedSubjects").in(filter.getRelatedSubjects()));
+        }
+        if (filter.getTeachingStrategy() != null) {
+            criteriaList.add(Criteria.where("teachingStrategy").regex(filter.getTeachingStrategy(), "i"));
         }
         if (filter.getPriority() != null) {
             criteriaList.add(Criteria.where("priority").is(filter.getPriority()));
@@ -60,6 +78,18 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         }
         if (filter.getAuthors() != null && !filter.getAuthors().isEmpty()) {
             criteriaList.add(Criteria.where("authors").in(filter.getAuthors()));
+        }
+        if (filter.getCourses() != null && !filter.getCourses().isEmpty()) {
+            criteriaList.add(Criteria.where("courses").in(filter.getCourses()));
+        }
+        if (filter.getDisciplinaryLink() != null) {
+            criteriaList.add(Criteria.where("disciplinaryLink").regex(filter.getDisciplinaryLink(), "i"));
+        }
+        if (filter.getObservation() != null) {
+            criteriaList.add(Criteria.where("observation").regex(filter.getObservation(), "i"));
+        }
+        if (filter.getCleanupDuration() != null) {
+            criteriaList.add(Criteria.where("cleanupDuration").is(filter.getCleanupDuration()));
         }
         if (filter.getLocationName() != null) {
             criteriaList.add(Criteria.where("location.name").regex(filter.getLocationName(), "i"));

@@ -92,3 +92,12 @@ Content-Type: application/json
   "organizer": "lucas",
   "priority": "MEDIUM"
 }
+###
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjY5NzY1LCJleHAiOjE3NDUzNTYxNjV9.aa8HuuAoV1VRCNRlrgjKqZLZ9_MjpsHrX3q0Te82g80
+Content-Type: application/json
+
+{
+  "startTime": "2025-04-19T19:25:00",
+  "endTime": "2025-04-19T19:39:00"
+}

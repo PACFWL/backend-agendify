@@ -17,7 +17,7 @@ Content-Type: application/json
   "disclosureMethod": "Redes Sociais",
   "relatedSubjects": ["Matemática"],
   "teachingStrategy": "Expositiva",
-  "authors": ["Autor A"],
+  "authors": ["Autor A", "Autor B"],
   "courses": ["Course A"],
   "disciplinaryLink": "Disciplina A",
   "location": {
@@ -32,14 +32,14 @@ Content-Type: application/json
 
 ### Criar evento B no Local Y
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDMwMjkyMDYsImV4cCI6MTc0MzExNTYwNn0.SxNMKcIFrMWw-umSNyk1MXn6lv74OEH4dxTVaJARUOs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjY4MzQ4LCJleHAiOjE3NDUzNTQ3NDh9.cM-uZQfTxkFmdbGYOLW6PFMoWjBw9vcd8ldbC_bw6VE
 Content-Type: application/json
 
 {
-  "name": "Evento B",
-  "day": "2025-04-01",
-  "startTime": "11:00:00",
-  "endTime": "13:00:00",
+  "name": "Evento I",
+  "day": "2025-04-30",
+  "startTime": "2025-04-30T09:00:00",
+  "endTime": "2025-04-30T11:00:00",
   "theme": "Tema B",
   "targetAudience": "Público B",
   "mode": "PRESENCIAL",
@@ -50,16 +50,53 @@ Content-Type: application/json
   "relatedSubjects": ["Física"],
   "teachingStrategy": "Prática",
   "authors": ["Autor B"],
+  "courses": ["Coelga"],
   "disciplinaryLink": "Disciplina B",
   "location": {
-    "name": "Local Y",
+    "name": "Local X",
     "floor": "1"
   },
   "status": "PLANEJADO",
+  "administrativeStatus": "APROVADO",
   "priority": "ALTA",
   "cleanupDuration": "PT15M",
   "observation": "Nenhuma"
 }
+
+###
+POST http://localhost:8080/api/events/resolve/c9e01b3d-d18b-4bdb-a6d2-d07e5e75fdf6
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjY4MzQ4LCJleHAiOjE3NDUzNTQ3NDh9.cM-uZQfTxkFmdbGYOLW6PFMoWjBw9vcd8ldbC_bw6VE
+Content-Type: application/json
+
+{
+  "name": "Evento I",
+  "day": "2025-04-30",
+  "startTime": "2025-04-30T09:00:00",
+  "endTime": "2025-04-30T11:00:00",
+  "theme": "Tema B",
+  "targetAudience": "Público B",
+  "mode": "PRESENCIAL",
+  "environment": "Sala 101",
+  "organizer": "Organizador B",
+  "resourcesDescription": ["Notebook"],
+  "disclosureMethod": "E-mail",
+  "relatedSubjects": ["Física"],
+  "teachingStrategy": "Prática",
+  "authors": ["Autor B"],
+  "courses": ["Coelga"],
+  "disciplinaryLink": "Disciplina B",
+  "location": {
+    "name": "Local X",
+    "floor": "1"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "APROVADO",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
+
+
 
 ### Atualizar evento B para o Local X (gera conflito)
 PUT http://localhost:8080/api/events/0f49eb50-66e2-474f-a1a7-698e54001604

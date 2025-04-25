@@ -1,6 +1,7 @@
 package com.fatec.agendify.agendify.model.event;
 
 public enum AdministrativeEventStatus {
+    NORMAL,
     CANCELADO,
     URGENTE,
     ADIADO,

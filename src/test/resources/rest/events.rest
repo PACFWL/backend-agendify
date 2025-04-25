@@ -1,0 +1,66 @@
+### Resolver conflito de criação de evento
+POST http://localhost:8080/api/events/resolve/ID_DO_EVENTO_EXISTENTE
+Content-Type: application/json
+
+{
+  "name": "Novo Evento Pós-Conflito",
+  "day": "2025-05-10",
+  "startTime": "2025-05-10T10:00:00",
+  "endTime": "2025-05-10T12:00:00",
+  "theme": "Tecnologia e Educação",
+  "targetAudience": "Estudantes",
+  "mode": "PRESENCIAL",
+  "environment": "Auditório",
+  "organizer": "Prof. João",
+  "resourcesDescription": ["Projetor", "Notebook"],
+  "disclosureMethod": "Email",
+  "relatedSubjects": ["Informática"],
+  "teachingStrategy": "Palestra",
+  "authors": ["João Silva"],
+  "courses": ["ADS"],
+  "disciplinaryLink": "Sim",
+  "location": {
+    "name": "Sala 101",
+    "floor": "1º Andar"
+  },
+  "observation": "Evento reorganizado após conflito.",
+  "status": "PENDENTE",
+  "administrativeStatus": "EM_ANALISE",
+  "priority": "MEDIA",
+  "cleanupDuration": "PT30M"
+}
+ 
+
+### Resolver conflito de atualização de evento
+POST http://localhost:8080/api/events/resolve-update/8d94de51-05b7-406e-88f5-9c87fee52bba
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjY5NzY1LCJleHAiOjE3NDUzNTYxNjV9.aa8HuuAoV1VRCNRlrgjKqZLZ9_MjpsHrX3q0Te82g80
+Content-Type: application/json
+
+{
+  "id": "c9e01b3d-d18b-4bdb-a6d2-d07e5e75fdf6",
+  "name": "Evento AA",
+  "day": "2025-04-30",
+  "startTime": "2025-04-30T09:20:00",
+  "endTime": "2025-04-30T11:00:00",
+  "theme": "Tema B",
+  "targetAudience": "Público B",
+  "mode": "PRESENCIAL",
+  "environment": "Sala 101",
+  "organizer": "Organizador B",
+  "resourcesDescription": ["Notebook"],
+  "disclosureMethod": "E-mail",
+  "relatedSubjects": ["Física"],
+  "teachingStrategy": "Prática",
+  "authors": ["Autor B"],
+  "courses": ["Coelga"],
+  "disciplinaryLink": "Disciplina B",
+  "location": {
+    "name": "Local X",
+    "floor": "1"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "APROVADO",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
