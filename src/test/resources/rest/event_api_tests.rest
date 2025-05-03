@@ -1,30 +1,68 @@
 # Criar um novo evento
 POST http://localhost:8080/api/events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MDcxMjMyLCJleHAiOjE3NDQxNTc2MzJ9.lsLvdrKapSeECi34a9zlcC8Bmrd_-E1hfUe2R3qxOZo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2Mjk3NTY5LCJleHAiOjE3NDYzODM5Njl9.gAHRysrk-juSliOdLpErY9iCMfWBt_p_SrkN5bVDxIM
 Content-Type: application/json
 
 {
-  "name": "Evento W",
-  "day": "2025-04-17",
-  "startTime": "02:00:00",
-  "endTime": "04:00:00",
-  "theme": "Tecnologia",
-  "targetAudience": "Estudantes",
+  "name": "Evento 2",
+  "day": "2025-05-29",
+  "startTime": "16:40:00",
+  "endTime": "19:50:00",
+  "theme": "Tema A",
+  "targetAudience": "Público A",
   "mode": "PRESENCIAL",
   "environment": "Auditório",
-  "organizer": "Prof. João",
+  "organizer": "Organizador A",
   "resourcesDescription": ["Projetor", "Microfone"],
-  "disclosureMethod": "E-mail",
-  "relatedSubjects": ["Computação", "Engenharia"],
-  "teachingStrategy": "Palestra",
-  "authors": ["Prof. João"],
-  "courses": ["Arte"],
-  "disciplinaryLink": "Informática",
-  "location": { "name": "Sala 101", "floor": "0" },
-  "observation": "Trazer material de anotação",
-  "status": "EM_BREVE",
+  "disclosureMethod": "Redes Sociais",
+  "relatedSubjects": ["Matemática"],
+  "teachingStrategy": "Expositiva",
+  "authors": ["Autor A", "Autor B"],
+  "courses": ["Course A"],
+  "disciplinaryLink": "Disciplina A",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "NORMAL",
   "priority": "ALTA",
-  "cleanupDuration": "PT30M"
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
+}
+
+
+### Criar um novo evento
+PUT http://localhost:8080/api/events/d280f00f-cb6c-4125-a137-41d7d6df4ae7
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2Mjk3NTY5LCJleHAiOjE3NDYzODM5Njl9.gAHRysrk-juSliOdLpErY9iCMfWBt_p_SrkN5bVDxIM
+Content-Type: application/json
+
+{
+  "name": "Evento 3",
+  "day": "2025-05-29",
+  "startTime": "08:00:00",
+  "endTime": "12:00:00",
+  "theme": "Tema A",
+  "targetAudience": "Público A",
+  "mode": "PRESENCIAL",
+  "environment": "Auditório",
+  "organizer": "Organizador A",
+  "resourcesDescription": ["Projetor", "Microfone"],
+  "disclosureMethod": "Redes Sociais",
+  "relatedSubjects": ["Matemática"],
+  "teachingStrategy": "Expositiva",
+  "authors": ["Autor A", "Autor B"],
+  "courses": ["Course A"],
+  "disciplinaryLink": "Disciplina A",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "NORMAL",
+  "priority": "ALTA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
 }
 
 ### Buscar evento por ID
@@ -36,31 +74,37 @@ GET http://localhost:8080/api/events
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzOTYzOTAxLCJleHAiOjE3NDQwNTAzMDF9.SCcn6Hcm415c3PLx0z7eSPQet-HHULiRxbtMPSaYs2A
 
 ### Atualizar um evento existente
-POST http://localhost:8080/api/events/resolve-update/dad78626-5023-48cc-88de-b52892908e3b
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDI5NDUzNjAsImV4cCI6MTc0MzAzMTc2MH0.OAbQva1-Zw5n_j-C0IsY5S_0l52GpAT85IRbHbMB_UU
+POST http://localhost:8080/api/events/resolve-update/daf45255-0f70-4968-9ca3-dc2b9a604607
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2MTg5ODA4LCJleHAiOjE3NDYyNzYyMDh9.a9eEbfqZQ2CpjP6O_pXwZHpIM__2irIv5XZ7eGNq_bs
 Content-Type: application/json
 
 {
-  "name": "Evento B",
-  "day": "2025-04-01",
+  "id": "d280f00f-cb6c-4125-a137-41d7d6df4ae7",
+  "name": "Evento 3",
+  "day": "2025-05-29",
   "startTime": "08:00:00",
-  "endTime": "09:00:00",
-  "theme": "Tecnologia",
-  "targetAudience": "Estudantes",
+  "endTime": "12:00:00",
+  "theme": "Tema A",
+  "targetAudience": "Público A",
   "mode": "PRESENCIAL",
   "environment": "Auditório",
-  "organizer": "Prof. João",
+  "organizer": "Organizador A",
   "resourcesDescription": ["Projetor", "Microfone"],
-  "disclosureMethod": "E-mail",
-  "relatedSubjects": ["Computação", "Engenharia"],
-  "teachingStrategy": "Palestra",
-  "authors": ["Prof. João"],
-  "disciplinaryLink": "Informática",
-  "location": { "name": "Sala 101", "floor": "0" },
-  "observation": "Trazer material de anotação",
-  "status": "EM_BREVE",
+  "disclosureMethod": "Redes Sociais",
+  "relatedSubjects": ["Matemática"],
+  "teachingStrategy": "Expositiva",
+  "authors": ["Autor A", "Autor B"],
+  "courses": ["Course A"],
+  "disciplinaryLink": "Disciplina A",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "NORMAL",
   "priority": "ALTA",
-  "cleanupDuration": "PT30M"
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
 }
 
 ### Deletar um evento
@@ -87,24 +131,29 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZAZXhhbXBsZS5jb20iL
 Content-Type: application/json
 
 {
-  "name": "Evento Teste B",
-  "day": "2025-03-22",
-  "startTime": "06:40:00",
+  "name": "Evento J",
+  "day": "2025-04-01",
+  "startTime": "07:00:00",
   "endTime": "08:00:00",
-  "theme": "Tecnologia",
-  "targetAudience": "Estudantes",
-  "mode": "IN_PERSON",
+  "theme": "Tema A",
+  "targetAudience": "Público A",
+  "mode": "PRESENCIAL",
   "environment": "Auditório",
-  "organizer": "Prof. João",
+  "organizer": "Organizador A",
   "resourcesDescription": ["Projetor", "Microfone"],
-  "disclosureMethod": "E-mail",
-  "relatedSubjects": ["Computação", "Engenharia"],
-  "teachingStrategy": "Palestra",
-  "authors": ["Prof. João"],
-  "disciplinaryLink": "Informática",
-  "location": { "name": "Sala 101", "floor": "1" },
-  "observation": "Trazer material de anotação",
-  "status": "EM_BREVE",
+  "disclosureMethod": "Redes Sociais",
+  "relatedSubjects": ["Matemática"],
+  "teachingStrategy": "Expositiva",
+  "authors": ["Autor A", "Autor B"],
+  "courses": ["Course A"],
+  "disciplinaryLink": "Disciplina A",
+  "location": {
+    "name": "Local X",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "NORMAL",
   "priority": "ALTA",
-  "cleanupDuration": "PT30M"
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
 }

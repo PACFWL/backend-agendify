@@ -1,11 +1,14 @@
 package com.fatec.agendify.agendify.controller.eventApproval;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -44,12 +47,19 @@ public class EventApprovalController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/resolve/{existingEventId}/{pendingEventId}")
-    public ResponseEntity<EventDTO> resolvePendingConflict(
-            @PathVariable String existingEventId,
-            @PathVariable String pendingEventId) {
-        EventDTO resolvedEvent = pendingEventService.resolvePendingEventConflict(existingEventId, pendingEventId);
-        return ResponseEntity.ok(resolvedEvent);
-    }
+@PostMapping("/resolve/{existingEventId}/{pendingEventId}")
+public ResponseEntity<EventDTO> resolvePendingConflict(
+        @PathVariable String existingEventId,
+        @PathVariable String pendingEventId,
+        @RequestBody(required = false) Map<String, Object> requestBody) {
+
+    System.out.println("existingEventId: " + existingEventId);
+    System.out.println("pendingEventId: " + pendingEventId);
+    System.out.println("Corpo da requisição: " + requestBody);
+
+    EventDTO resolvedEvent = pendingEventService.resolvePendingEventConflict(existingEventId, pendingEventId);
+    return ResponseEntity.ok(resolvedEvent);
+}
+
 }
 

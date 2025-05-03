@@ -128,9 +128,7 @@ return eventRepository.findAll().stream()
     })
     .map(EventMapper::toDTO)
     .collect(Collectors.toList());
-}
-
-   
+}   
     public Object updateEvent(String id, EventUpdateDTO eventUpdateDTO) {
         logger.info("Atualizando evento com ID: {}", id);
 
@@ -180,9 +178,7 @@ return eventRepository.findAll().stream()
         existingEvent.setStatus(EventStatusUtil.determineStatus(existingEvent));
         existingEvent.setLastModifiedAt(Instant.now());
         return EventMapper.toDTO(eventRepository.save(existingEvent));
-    }
-    
-    
+    }   
     public EventDTO resolveUpdateConflict(String conflictingEventId, String updatedEventId, EventUpdateDTO updatedEventDTO) {
         
         Event conflictingEvent = eventRepository.findById(conflictingEventId)

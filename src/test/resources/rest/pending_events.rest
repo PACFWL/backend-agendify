@@ -1,31 +1,36 @@
 ### Criar um evento pendente
 POST http://localhost:8080/pending-events
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ0MzM0NTA3LCJleHAiOjE3NDQ0MjA5MDd9.CC2cgwIAlV8wkhjy-4G6oUGhYFJXrdCWCfvXd8Li6NA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2Mjk3NTY5LCJleHAiOjE3NDYzODM5Njl9.gAHRysrk-juSliOdLpErY9iCMfWBt_p_SrkN5bVDxIM
 Content-Type: application/json
 
 {
-  "name": "WA",
-  "day": "2025-06-21",
-  "startTime": "05:00",
-  "endTime": "08:00",
-  "theme": "Desenvolvimento Web",
-  "targetAudience": "Estudantes e desenvolvedores",
+  "name": "Evento 2",
+  "day": "2025-05-03",
+  "startTime": "14:00:00",
+  "endTime": "19:50:00",
+  "theme": "Tema A",
+  "targetAudience": "Público A",
   "mode": "PRESENCIAL",
-  "environment": "Zoom",
-  "organizer": "Faculdade de Tecnologia",
-  "resourcesDescription": ["Computador", "Internet"],
-  "disclosureMethod": "Redes sociais e email",
-  "relatedSubjects": ["Programação", "Backend"],
-  "teachingStrategy": "Aulas práticas",
-  "authors": ["João Silva"],
-  "courses": ["Engenharia de Software"],
-  "disciplinaryLink": "Tecnologia da Informação",
-  "location":  { "name": "Sala 101", "floor": "0" },
-  "status": "PENDENTE",
-  "priority": "ALTA",
-  "cleanupDuration": "PT30M",
-  "observation": "Levar notebook pessoal"
+  "environment": "Auditório",
+  "organizer": "Organizador A",
+  "resourcesDescription": ["Projetor", "Microfone"],
+  "disclosureMethod": "Redes Sociais",
+  "relatedSubjects": ["Matemática"],
+  "teachingStrategy": "Expositiva",
+  "authors": ["Autor A", "Autor B"],
+  "courses": ["Course A"],
+  "disciplinaryLink": "Disciplina A",
+  "location": {
+    "name": "Auditório",
+    "floor": "0"
+  },
+  "status": "PLANEJADO",
+  "administrativeStatus": "NORMAL",
+  "priority": "MUITO_BAIXA",
+  "cleanupDuration": "PT15M",
+  "observation": "Nenhuma"
 }
+
 
 ### Buscar todos os eventos pendentes (Apenas MASTER)
 GET http://localhost:8080/pending-events
@@ -36,8 +41,11 @@ GET http://localhost:8080/pending-events/my-requests
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQzODIwNzAwLCJleHAiOjE3NDM5MDcxMDB9.b9rUCHlISWwekRHm-a6OO7gkvRbdNiuVagLmiAjdUrA
 
 ### Aprovar um evento pendente (Apenas MASTER)
-POST http://localhost:8080/event-approval/3b6963dd-97a0-457c-8e36-8f0b0eb3f539/approve
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODc0NDA3LCJleHAiOjE3NDM5NjA4MDd9.OqaZsSYxU0F79BGmCYOVjTNJGStmGbvX1hJJ6IuQmWM
+POST http://localhost:8080/event-approval/de094986-241d-4468-b1b2-ce0366959a05/approve
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2Mjk3NTY5LCJleHAiOjE3NDYzODM5Njl9.gAHRysrk-juSliOdLpErY9iCMfWBt_p_SrkN5bVDxIM
+
+
+
 
 ### Rejeitar um evento pendente (Apenas MASTER)
 DELETE http://localhost:8080/event-approval/{id}/reject
@@ -52,8 +60,10 @@ POST http://localhost:8080/event-approval/49a30f1c-ddad-4755-9039-b14b3bc7efff/a
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODgyNzg4LCJleHAiOjE3NDM5NjkxODh9.TAkm5hanE_VN8uSCK1-u7IQwuGL_KrJksNaUhbNiDKU
 
 ###
-POST http://localhost:8080/event-approval/resolve/6ab1a1b6-bff6-4ce4-b40f-bc580972ddb9/49a30f1c-ddad-4755-9039-b14b3bc7efff
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzODgyNzg4LCJleHAiOjE3NDM5NjkxODh9.TAkm5hanE_VN8uSCK1-u7IQwuGL_KrJksNaUhbNiDKU
+POST http://localhost:8080/event-approval/resolve/b7bdb662-9f95-4138-a77d-1eb5a169b162/2ad82a55-b661-4722-8a9d-db1514e4f38d
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2Mjk3NTY5LCJleHAiOjE3NDYzODM5Njl9.gAHRysrk-juSliOdLpErY9iCMfWBt_p_SrkN5bVDxIM
+
+
 
 
 ###
@@ -136,7 +146,7 @@ Authorization: Bearer
 
 ### Atualizar evento pendente (MASTER ou REQUESTER) - Substitua ID
 PUT http://localhost:8080/pending-events/660005b4-cedf-4a44-8427-d62a7d6fa602
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OWRmOTllNy0wNzU5LTRiN2YtYTNhMS1kMzYwMTRhMzBlMmYiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQ0MDY5ODEzLCJleHAiOjE3NDQxNTYyMTN9.G7QlZG1P3J34FzXl9FktcZ1X9Feqp2EzyKckyKCyvEM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2MjMzNjcyLCJleHAiOjE3NDYzMjAwNzJ9.ZEjJk4JHNkUCebEoMqTLpn1o5PyxgvtrQqgaT6aSkws
 Content-Type: application/json
 
 {

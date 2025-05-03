@@ -23,7 +23,6 @@ public class EventStatusScheduler {
         this.eventRepository = eventRepository;
     }
 
-
     @Scheduled(cron = "0 */10 * * * *", zone = "America/Sao_Paulo")
     public void updateEventStatuses() {
         logger.info("Iniciando verificação agendada de status de eventos...");
@@ -40,7 +39,6 @@ public class EventStatusScheduler {
                 eventRepository.save(event);
             }
         }
-
         logger.info("Verificação de status concluída.");
     }
 }
