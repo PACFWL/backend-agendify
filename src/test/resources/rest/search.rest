@@ -90,14 +90,70 @@ Content-Type: application/json
   "endTime": "16:00",
   "environment": "Sala 101",
   "organizer": "lucas",
-  "priority": "MEDIUM"
+  "priority": "ALTA"
 }
 ###
 POST http://localhost:8080/api/events/search
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ1MjY5NzY1LCJleHAiOjE3NDUzNTYxNjV9.aa8HuuAoV1VRCNRlrgjKqZLZ9_MjpsHrX3q0Te82g80
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDYzNDY0LCJleHAiOjE3NDY1NDk4NjR9.SwIa_E8NH79h4Km04q86ePvPNl9MKsZ9m7_flurKbK4
 Content-Type: application/json
 
 {
   "startTime": "2025-04-19T19:25:00",
   "endTime": "2025-04-19T19:39:00"
+}
+
+### Buscar eventos por data específica
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDYzNDY0LCJleHAiOjE3NDY1NDk4NjR9.SwIa_E8NH79h4Km04q86ePvPNl9MKsZ9m7_flurKbK4
+Content-Type: application/json
+
+{
+  "day": "2025-05-05"
+}
+
+### Buscar eventos por data específica
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDYzNDY0LCJleHAiOjE3NDY1NDk4NjR9.SwIa_E8NH79h4Km04q86ePvPNl9MKsZ9m7_flurKbK4
+Content-Type: application/json
+
+{
+  "day": "2025-05-05"
+}
+
+### Buscar eventos por data específica
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDYzNDY0LCJleHAiOjE3NDY1NDk4NjR9.SwIa_E8NH79h4Km04q86ePvPNl9MKsZ9m7_flurKbK4
+Content-Type: application/json
+
+{
+  "startTime": "00:00:00"
+}
+
+### Buscar eventos por data específica
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDYzNDY0LCJleHAiOjE3NDY1NDk4NjR9.SwIa_E8NH79h4Km04q86ePvPNl9MKsZ9m7_flurKbK4
+Content-Type: application/json
+
+{
+  "endTime": "23:00:00"
+}
+
+// "endTime": "12:00:00"
+### Buscar eventos filtrando por startTime e endTime
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDc2NjI0LCJleHAiOjE3NDY1NjMwMjR9.HsQl8gXm6jDAxw8Aa5y8ifI-QLyq2m6ysl45ApN0vTY
+Content-Type: application/json
+
+{ 
+
+  "startTime": "18:33:00"
+}
+
+### Buscar eventos filtrando por startTime e endTime
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDc2NjI0LCJleHAiOjE3NDY1NjMwMjR9.HsQl8gXm6jDAxw8Aa5y8ifI-QLyq2m6ysl45ApN0vTY
+Content-Type: application/json
+
+{
+  "cleanupDuration": "PT3H"
 }

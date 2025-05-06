@@ -34,12 +34,22 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         if (filter.getStartDay() != null && filter.getEndDay() != null) {
             criteriaList.add(Criteria.where("day").gte(filter.getStartDay()).lte(filter.getEndDay()));
         }
-        if (filter.getStartTime() != null) {
-            criteriaList.add(Criteria.where("startTime").gte(filter.getStartTime()));
+        if (filter.getStartTime() != null && filter.getEndTime() != null) {
+            if (Boolean.TRUE.equals(filter.getIntervalSearch())) {
+              
+                criteriaList.add(Criteria.where("startTime").lte(filter.getEndTime()));
+                criteriaList.add(Criteria.where("endTime").gte(filter.getStartTime()));
+            } else {
+             
+                criteriaList.add(Criteria.where("startTime").is(filter.getStartTime()));
+                criteriaList.add(Criteria.where("endTime").is(filter.getEndTime()));
+            }
+        } else if (filter.getStartTime() != null) {
+            criteriaList.add(Criteria.where("startTime").is(filter.getStartTime()));
+        } else if (filter.getEndTime() != null) {
+            criteriaList.add(Criteria.where("endTime").is(filter.getEndTime()));
         }
-        if (filter.getEndTime() != null) {
-            criteriaList.add(Criteria.where("endTime").lte(filter.getEndTime()));
-        }
+        
         if (filter.getTheme() != null) {
             criteriaList.add(Criteria.where("theme").regex(filter.getTheme(), "i"));
         }

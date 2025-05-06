@@ -16,6 +16,7 @@ public class EventFilterDTO {
     private LocalDate endDay;
     private LocalTime startTime;
     private LocalTime endTime;
+    private Boolean intervalSearch;
     private String theme;
     private String targetAudience;
     private EventMode mode;
