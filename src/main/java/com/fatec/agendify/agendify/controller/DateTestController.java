@@ -23,18 +23,16 @@ public class DateTestController {
         return response;
     }
 
-@GetMapping("/test-time")
-public Map<String, Object> testTime() {
-    Instant now = Instant.now(); 
-    LocalDateTime local = LocalDateTime.now(); 
-    ZonedDateTime zdt = ZonedDateTime.ofInstant(now, ZoneId.of("America/Sao_Paulo"));
+    @GetMapping("/test-time")
+    public Map<String, Object> testTime() {
+        Instant now = Instant.now(); 
+        LocalDateTime local = LocalDateTime.now(); 
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(now, ZoneId.of("America/Sao_Paulo"));
 
-    return Map.of(
-        "instant", now,
-        "localDateTime", local,
-        "zonedDateTime", zdt
-    );
-}
-
-
+        return Map.of(
+            "instant", now,
+            "localDateTime", local,
+            "zonedDateTime", zdt
+        );
+    }
 }

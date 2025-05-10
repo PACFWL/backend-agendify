@@ -70,22 +70,22 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
-    Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
+    public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
+        Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
 
-    if (existingUser.isPresent() &&
-        passwordEncoder.matches(userDTO.getPassword(), existingUser.get().getPassword())) {
-        System.out.println("Senha fornecida: " + userDTO.getPassword());
-        System.out.println("Senha armazenada (hash): " + existingUser.get().getPassword());
-        String token = generateToken(existingUser.get());
-        String name = existingUser.get().getName();
-        String role = existingUser.get().getRole().name();
-        
-        return new LoginResponseDTO(token, name, role);
+        if (existingUser.isPresent() &&
+            passwordEncoder.matches(userDTO.getPassword(), existingUser.get().getPassword())) {
+            System.out.println("Senha fornecida: " + userDTO.getPassword());
+            System.out.println("Senha armazenada (hash): " + existingUser.get().getPassword());
+            String token = generateToken(existingUser.get());
+            String name = existingUser.get().getName();
+            String role = existingUser.get().getRole().name();
+            
+            return new LoginResponseDTO(token, name, role);
+        }
+
+        throw new RuntimeException("Email ou senha inválidos.");
     }
-
-    throw new RuntimeException("Email ou senha inválidos.");
-}
 
     private String generateToken(User user) {
         return Jwts.builder()
@@ -136,41 +136,41 @@ public LoginResponseDTO loginUser(UserLoginDTO userDTO) {
 
 }
 
-public User.Role getAuthenticatedUserRole() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public User.Role getAuthenticatedUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    if (authentication == null || !authentication.isAuthenticated()) {
-        throw new RuntimeException("Usuário não autenticado");
-    }
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Usuário não autenticado");
+        }
 
-    String token = null;
+        String token = null;
 
-    if (authentication.getCredentials() instanceof String jwt) {
-        token = jwt;
-    } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+        if (authentication.getCredentials() instanceof String jwt) {
+            token = jwt;
+        } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
 
-        String roleName = userDetails.getAuthorities().stream()
-                .findFirst()
-                .map(grantedAuthority -> grantedAuthority.getAuthority().replace("ROLE_", ""))
-                .orElse("REQUESTER");
+            String roleName = userDetails.getAuthorities().stream()
+                    .findFirst()
+                    .map(grantedAuthority -> grantedAuthority.getAuthority().replace("ROLE_", ""))
+                    .orElse("REQUESTER");
+            return User.Role.valueOf(roleName);
+        }
+
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("JWT String argument cannot be null or empty.");
+        }
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        @SuppressWarnings("unchecked")
+        List<String> roles = claims.get("roles", List.class);
+        
+        String roleName = roles != null && !roles.isEmpty() ? roles.get(0) : "REQUESTER";
+
         return User.Role.valueOf(roleName);
     }
-
-    if (token == null || token.trim().isEmpty()) {
-        throw new IllegalArgumentException("JWT String argument cannot be null or empty.");
-    }
-
-    Claims claims = Jwts.parserBuilder()
-            .setSigningKey(getSigningKey())
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
-
-    @SuppressWarnings("unchecked")
-    List<String> roles = claims.get("roles", List.class);
-    
-    String roleName = roles != null && !roles.isEmpty() ? roles.get(0) : "REQUESTER";
-
-    return User.Role.valueOf(roleName);
-}
 }

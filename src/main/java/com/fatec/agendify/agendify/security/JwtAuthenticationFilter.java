@@ -47,36 +47,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .getBody();
     }
 
-@Override
-protected void doFilterInternal(
-        @NonNull HttpServletRequest request,
-        @NonNull HttpServletResponse response,
-        @NonNull FilterChain chain
-) throws ServletException, IOException {
-    String token = extractToken(request);
-    if (token != null) {
-        try {
-            Claims claims = extractClaims(token);
-            String userId = claims.getSubject();
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain chain
+    ) throws ServletException, IOException {
+        String token = extractToken(request);
+        if (token != null) {
+            try {
+                Claims claims = extractClaims(token);
+                String userId = claims.getSubject();
 
-            @SuppressWarnings("unchecked")
-            List<String> roles = claims.get("roles", List.class);
+                @SuppressWarnings("unchecked")
+                List<String> roles = claims.get("roles", List.class);
 
-            List<SimpleGrantedAuthority> authorities = roles.stream()
-                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) 
-                    .toList();
+                List<SimpleGrantedAuthority> authorities = roles.stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) 
+                        .toList();
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    new org.springframework.security.core.userdetails.User(userId, "", authorities),
-                    token,
-                    authorities
-            );
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception e) {
-            System.out.println("Erro ao validar token: " + e.getMessage());
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        new org.springframework.security.core.userdetails.User(userId, "", authorities),
+                        token,
+                        authorities
+                );
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                System.out.println("Erro ao validar token: " + e.getMessage());
+            }
         }
+        chain.doFilter(request, response);
     }
-    chain.doFilter(request, response);
-}
 }

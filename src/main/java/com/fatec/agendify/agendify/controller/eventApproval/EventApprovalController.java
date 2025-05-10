@@ -46,13 +46,13 @@ public class EventApprovalController {
         return ResponseEntity.noContent().build();
     }
 
-@PostMapping("/resolve/{existingEventId}/{pendingEventId}")
-public ResponseEntity<EventDTO> resolvePendingConflict(
-        @PathVariable String existingEventId,
-        @PathVariable String pendingEventId) {
+    @PostMapping("/resolve/{existingEventId}/{pendingEventId}")
+    public ResponseEntity<EventDTO> resolvePendingConflict(
+            @PathVariable String existingEventId,
+            @PathVariable String pendingEventId) {
 
-    EventDTO resolvedEvent = pendingEventService.resolvePendingEventConflict(existingEventId, pendingEventId);
-    return ResponseEntity.ok(resolvedEvent);
-}
+        EventDTO resolvedEvent = pendingEventService.resolvePendingEventConflict(existingEventId, pendingEventId);
+        return ResponseEntity.ok(resolvedEvent);
+    }
 }
 

@@ -101,69 +101,68 @@ public class PendingEventService {
         pendingEventRepository.deleteById(id);
     }    
 
-public Object approvePendingEvent(String id) {
+    public Object approvePendingEvent(String id) {
 
-    PendingEvent pendingEvent = pendingEventRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
+        PendingEvent pendingEvent = pendingEventRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento pendente não encontrado"));
 
-            if (pendingEvent.getStartTime().isAfter(pendingEvent.getEndTime()) ||
-            pendingEvent.getStartTime().equals(pendingEvent.getEndTime())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+                if (pendingEvent.getStartTime().isAfter(pendingEvent.getEndTime()) ||
+                pendingEvent.getStartTime().equals(pendingEvent.getEndTime())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário de início deve ser anterior ao horário de término.");
+            }
+
+        if (pendingEvent.getResourcesDescription().stream().anyMatch(String::isBlank)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada recurso deve ser preenchido");
         }
 
-    if (pendingEvent.getResourcesDescription().stream().anyMatch(String::isBlank)) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada recurso deve ser preenchido");
-    }
+        if (pendingEvent.getRelatedSubjects().stream().anyMatch(String::isBlank)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada disciplina deve ser preenchida");
+        }
 
-    if (pendingEvent.getRelatedSubjects().stream().anyMatch(String::isBlank)) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada disciplina deve ser preenchida");
-    }
+        if (pendingEvent.getAuthors().stream().anyMatch(String::isBlank)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada autor(a) deve ser preenchido");
+        }
 
-    if (pendingEvent.getAuthors().stream().anyMatch(String::isBlank)) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cada autor(a) deve ser preenchido");
-    }
+        List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
+            pendingEvent.getDay(), pendingEvent.getLocation().getName()
+        );
 
-    List<Event> conflictingEvents = eventRepository.findByDayAndLocation_Name(
-        pendingEvent.getDay(), pendingEvent.getLocation().getName()
-    );
+        LocalTime newStart = pendingEvent.getStartTime();
+        LocalTime newEnd = pendingEvent.getEndTime().plus(pendingEvent.getCleanupDuration());
 
-    LocalTime newStart = pendingEvent.getStartTime();
-    LocalTime newEnd = pendingEvent.getEndTime().plus(pendingEvent.getCleanupDuration());
+        for (Event existingEvent : conflictingEvents) {
+            LocalTime existingStart = existingEvent.getStartTime();
+            LocalTime existingEnd = existingEvent.getEndTime().plus(existingEvent.getCleanupDuration());
 
-    for (Event existingEvent : conflictingEvents) {
-        LocalTime existingStart = existingEvent.getStartTime();
-        LocalTime existingEnd = existingEvent.getEndTime().plus(existingEvent.getCleanupDuration());
+            boolean isOverlapping = !(newEnd.isBefore(existingStart) || newStart.isAfter(existingEnd));
 
-        boolean isOverlapping = !(newEnd.isBefore(existingStart) || newStart.isAfter(existingEnd));
-
-        if (isOverlapping) {
-            if (pendingEvent.getPriority().ordinal() > existingEvent.getPriority().ordinal()) {
-                existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
-                eventRepository.save(existingEvent);
-            } else if (pendingEvent.getPriority().ordinal() < existingEvent.getPriority().ordinal()) {
-                pendingEvent.setLocation(new EventLocation("A definir", pendingEvent.getLocation().getFloor()));
-            } else {
-                return new EventConflictDTO(
-                    "Conflito de eventos com mesma prioridade. Escolha uma ação.",
-                    EventMapper.toDTO(existingEvent)
-                );
+            if (isOverlapping) {
+                if (pendingEvent.getPriority().ordinal() > existingEvent.getPriority().ordinal()) {
+                    existingEvent.setLocation(new EventLocation("A definir", existingEvent.getLocation().getFloor()));
+                    eventRepository.save(existingEvent);
+                } else if (pendingEvent.getPriority().ordinal() < existingEvent.getPriority().ordinal()) {
+                    pendingEvent.setLocation(new EventLocation("A definir", pendingEvent.getLocation().getFloor()));
+                } else {
+                    return new EventConflictDTO(
+                        "Conflito de eventos com mesma prioridade. Escolha uma ação.",
+                        EventMapper.toDTO(existingEvent)
+                    );
+                }
             }
         }
+
+        pendingEvent.setAdministrativeStatus(AdministrativeEventStatus.APROVADO);
+        pendingEventRepository.save(pendingEvent);
+        
+        Event createdEvent = EventMapper.toEntityFromPending(pendingEvent);
+        createdEvent.setCreatedAt(Instant.now());
+        createdEvent.setLastModifiedAt(Instant.now());
+
+        eventRepository.save(createdEvent);
+        pendingEventRepository.deleteById(id);
+
+        return EventMapper.toDTO(createdEvent);
     }
-
-
-    pendingEvent.setAdministrativeStatus(AdministrativeEventStatus.APROVADO);
-    pendingEventRepository.save(pendingEvent);
-    
-    Event createdEvent = EventMapper.toEntityFromPending(pendingEvent);
-    createdEvent.setCreatedAt(Instant.now());
-    createdEvent.setLastModifiedAt(Instant.now());
-
-    eventRepository.save(createdEvent);
-    pendingEventRepository.deleteById(id);
-
-    return EventMapper.toDTO(createdEvent);
-}
 
     public EventDTO resolvePendingEventConflict(String existingEventId, String pendingEventId) {
     Event existingEvent = eventRepository.findById(existingEventId)
@@ -183,5 +182,5 @@ public Object approvePendingEvent(String id) {
     pendingEventRepository.deleteById(pendingEventId);
 
     return EventMapper.toDTO(savedEvent);
-}
+    }
 }

@@ -12,7 +12,7 @@ import com.fatec.agendify.agendify.model.pendingEvent.PendingEvent;
 
 public class PendingEventMapper {
     
-         public static PendingEventDTO toDTO(PendingEvent pendingEvent) {
+    public static PendingEventDTO toDTO(PendingEvent pendingEvent) {
         return PendingEventDTO.builder()
                 .id(pendingEvent.getId())
                 .name(pendingEvent.getName())
