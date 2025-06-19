@@ -41,7 +41,7 @@ public class EventDTO {
     private String disclosureMethod;
     private List<String> relatedSubjects;
     private String teachingStrategy;
-    private List<String> authors;//
+    private List<String> authors;
     private List<String> courses;
     private String disciplinaryLink;
     private EventLocation location;

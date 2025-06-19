@@ -20,7 +20,6 @@ import com.fatec.agendify.agendify.model.event.EventMode;
 import com.fatec.agendify.agendify.model.event.EventPriority;
 import com.fatec.agendify.agendify.model.event.EventStatus;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

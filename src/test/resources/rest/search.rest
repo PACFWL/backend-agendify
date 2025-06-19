@@ -113,11 +113,11 @@ Content-Type: application/json
 
 ### Buscar eventos por data específica
 POST http://localhost:8080/api/events/search
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDYzNDY0LCJleHAiOjE3NDY1NDk4NjR9.SwIa_E8NH79h4Km04q86ePvPNl9MKsZ9m7_flurKbK4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjg1MWZiNC0xMDNjLTQ3MmItOTdiMy0xN2VmYmE3YmM1YzEiLCJlbWFpbCI6InJlcXVlc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJSRVFVRVNURVIiXSwiaWF0IjoxNzQ2OTg1NDkyLCJleHAiOjE3NDcwNzE4OTJ9.3mPC1XKPSnEs10Wrcylr4qBRgZsV1S_QWBLXoC9QvBw
 Content-Type: application/json
 
 {
-  "day": "2025-05-05"
+  "day": "2025-05-20"
 }
 
 ### Buscar eventos por data específica
@@ -138,22 +138,23 @@ Content-Type: application/json
   "endTime": "23:00:00"
 }
 
-// "endTime": "12:00:00"
 ### Buscar eventos filtrando por startTime e endTime
 POST http://localhost:8080/api/events/search
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NDc2NjI0LCJleHAiOjE3NDY1NjMwMjR9.HsQl8gXm6jDAxw8Aa5y8ifI-QLyq2m6ysl45ApN0vTY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ4MTIwMDY0LCJleHAiOjE3NDgyMDY0NjR9.8zaFDWq6g7SDyrEKGDMWCWK92G0e6UFasdz6e1-EEyQ
 Content-Type: application/json
-
 { 
-
-  "startTime": "18:33:00"
+  "startTime": "02:00:00",
+  "endTime": "21:00:00",
+  "intervalSearch": true
 }
 
 ### Buscar eventos filtrando por startTime e endTime
 POST http://localhost:8080/api/events/search
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ2NTY2MjA5LCJleHAiOjE3NDY2NTI2MDl9.MqTuauxQTinCDBTuD-211cpKioe2h74bkEktysySNbs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ4MTIwMDY0LCJleHAiOjE3NDgyMDY0NjR9.8zaFDWq6g7SDyrEKGDMWCWK92G0e6UFasdz6e1-EEyQ
 Content-Type: application/json
 
 {
-  "cleanupDuration": "PT3H"
+  "intervalSearch": true,
+  "startTime": "02:00:00",
+  "endTime": "23:00:00"
 }

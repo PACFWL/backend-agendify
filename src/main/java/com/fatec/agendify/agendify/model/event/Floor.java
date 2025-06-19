@@ -6,7 +6,8 @@ public enum Floor {
     GROUND_FLOOR("Térreo"),
     FIRST_FLOOR("1º Andar"),
     SECOND_FLOOR("2º Andar"),
-    BLOCK_C_FLOOR("Bloco C");
+    BLOCK_C_FLOOR("Bloco C"),
+    NON_EXISTENT("Inexistente");
 
     private final String description;
 
