@@ -28,13 +28,11 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
-@PostMapping("/login")
-public ResponseEntity<LoginResponseDTO> loginUser(@Valid @RequestBody UserLoginDTO userDTO) {
-    LoginResponseDTO response = userService.loginUser(userDTO);
-    return ResponseEntity.ok(response);
-}
-
-    
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> loginUser(@Valid @RequestBody UserLoginDTO userDTO) {
+        LoginResponseDTO response = userService.loginUser(userDTO);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
