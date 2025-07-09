@@ -1,0 +1,60 @@
+
+### 1. Registrar um usuário pendente
+
+POST http://localhost:8080/api/users/registerPending
+Content-Type: application/json
+
+{
+  "name": "Teste",
+  "email": "pendentePPLk@example.com",
+  "password": "12345678",
+  "role": "MASTER"
+}
+
+###
+POST http://localhost:8080/api/pendingUser/registerPending
+Content-Type: application/json
+
+{
+  "name": "Teste",
+  "email": "pendenteG@example.com",
+  "password": "12345678",
+  "role": "MASTER"
+}
+
+
+### 2. Login como MASTER para obter o token JWT
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "email": "master@example.com",
+  "password": "senha_do_master"
+}
+
+
+### 3. Listar usuários pendentes (MASTER)
+GET http://localhost:8080/api/pendingUser/pending
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzUxNTg4NzA0LCJleHAiOjE3NTE2NzUxMDR9.ELS2ENpZX0v4EVyPMulnCU5scOOiT2RQnN_Ec5tbSVM
+
+###
+POST http://localhost:8080/api/pendingUser/pending/9a895fd5-51ce-4fed-a291-ad9b5e3ee02c/approve
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzUxNTg4NzA0LCJleHAiOjE3NTE2NzUxMDR9.ELS2ENpZX0v4EVyPMulnCU5scOOiT2RQnN_Ec5tbSVM
+
+
+###
+DELETE http://localhost:8080/api/pendingUser/pending/5ebb70de-8bce-474b-a80a-031555ca0b90/reject
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzUxNTg4NzA0LCJleHAiOjE3NTE2NzUxMDR9.ELS2ENpZX0v4EVyPMulnCU5scOOiT2RQnN_Ec5tbSVM
+
+
+###
+PUT http://localhost:8080/api/pendingUser/pending/e2699241-b4aa-49b6-97ae-dff3598d53a4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzUxNTAzOTYyLCJleHAiOjE3NTE1OTAzNjJ9.cCulJt2-nftNX22K2WuX2e-cmIpjf8eKmDeNBAA67r0
+Content-Type: application/json
+
+{
+  "name": "TesteL",
+  "email": "pendenteg@example.com",
+  "password": "Key123POiuyt",
+  "role": "REQUESTER"
+}

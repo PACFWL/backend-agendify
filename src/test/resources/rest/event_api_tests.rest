@@ -66,8 +66,8 @@ Content-Type: application/json
 }
 
 ### Buscar evento por ID
-GET http://localhost:8080/api/events/3926acf0-5a4e-4001-9560-77fd4531ae71
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYWJjNGQ4Ny1iN2EwLTQ5YzQtYTkzMy02NmY5OTcxNjJjNjQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQzOTYzOTAxLCJleHAiOjE3NDQwNTAzMDF9.SCcn6Hcm415c3PLx0z7eSPQet-HHULiRxbtMPSaYs2A
+GET http://localhost:8080/api/events/47f2e2c4-3da7-47c1-9f2f-5a37a2c9b31d
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzUxMjM3MTI3LCJleHAiOjE3NTEzMjM1Mjd9.Q-7r3fdpTgX8PZ-LgsqHqiC7PFxvff7Rfa3YL0l7IZM
 
 ### Buscar todos os eventos
 GET http://localhost:8080/api/events

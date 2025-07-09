@@ -17,7 +17,6 @@ public class EventLocationValidator implements ConstraintValidator<ValidEventLoc
         if (event.getMode() == null || event.getLocation() == null) {
             return true; 
         }
-
        
         if (event.getMode() == EventMode.ONLINE && !event.getLocation().getName().equalsIgnoreCase("ONLINE")) {
             context.disableDefaultConstraintViolation();
