@@ -23,6 +23,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +44,12 @@ public class UserService {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
     
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(UserMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+    
     public UserDTO createUser(UserCreateDTO userDTO) {
         User user = UserMapper.toEntity(userDTO);
 
@@ -60,8 +67,15 @@ public class UserService {
     }
 
     public UserDTO updateUser(String id, UserUpdateDTO userDTO) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
         UserMapper.updateEntityFromDTO(user, userDTO);
+
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
         return UserMapper.toDTO(userRepository.save(user));
     }
 

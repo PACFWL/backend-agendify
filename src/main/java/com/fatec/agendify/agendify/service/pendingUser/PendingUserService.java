@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fatec.agendify.agendify.dto.pendingUser.PendingUserCreateDTO;
+import com.fatec.agendify.agendify.dto.pendingUser.PendingUserUpdateDTO;
 import com.fatec.agendify.agendify.dto.user.UserCreateDTO;
 import com.fatec.agendify.agendify.dto.user.UserDTO;
 import com.fatec.agendify.agendify.mapper.UserMapper;
@@ -34,16 +36,16 @@ public class PendingUserService {
                 .orElseThrow(() -> new RuntimeException("Usuário pendente não encontrado"));
     }
 
-    public PendingUser createPendingUser(UserCreateDTO userDTO) {
-    if (pendingUserRepository.existsByEmail(userDTO.getEmail()) || userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+    public PendingUser createPendingUser(PendingUserCreateDTO pendingUserDTO) {
+    if (pendingUserRepository.existsByEmail(pendingUserDTO.getEmail()) || userRepository.findByEmail(pendingUserDTO.getEmail()).isPresent()) {
         throw new RuntimeException("E-mail já em uso.");
     }
 
     PendingUser pending = PendingUser.builder()
-            .name(userDTO.getName())
-            .email(userDTO.getEmail())
-            .password(passwordEncoder.encode(userDTO.getPassword()))
-            .role(userDTO.getRole().toUpperCase())
+            .name(pendingUserDTO.getName())
+            .email(pendingUserDTO.getEmail())
+            .password(passwordEncoder.encode(pendingUserDTO.getPassword()))
+            .role(pendingUserDTO.getRole().toUpperCase())
             .createdAt(Instant.now())
             .build();
 
@@ -55,18 +57,18 @@ public List<PendingUser> listPendingUsers() {
     return pendingUserRepository.findAll();
 }
 
-public PendingUser updatePendingUser(String id, UserCreateDTO dto) {
+public PendingUser updatePendingUser(String id, PendingUserUpdateDTO pendingUserUpdateDTO) {
     PendingUser pending = pendingUserRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuário pendente não encontrado"));
 
-    pending.setName(dto.getName());
-    pending.setEmail(dto.getEmail());
+    pending.setName(pendingUserUpdateDTO.getName());
+    pending.setEmail(pendingUserUpdateDTO.getEmail());
 
-     if (dto.getPassword() != null && !dto.getPassword().trim().isEmpty()) {
-        pending.setPassword(passwordEncoder.encode(dto.getPassword()));
+    if (pendingUserUpdateDTO.getPassword() != null && !pendingUserUpdateDTO.getPassword().trim().isEmpty()) {
+        pending.setPassword(passwordEncoder.encode(pendingUserUpdateDTO.getPassword()));
     }
 
-    pending.setRole(dto.getRole().toUpperCase());
+    pending.setRole(pendingUserUpdateDTO.getRole().toUpperCase());
     pending.setLastModifiedAt(Instant.now());
 
     return pendingUserRepository.save(pending);
@@ -106,6 +108,4 @@ public UserDTO approvePendingUser(String id) {
         }
         pendingUserRepository.deleteById(id);
     }
-
-
 }

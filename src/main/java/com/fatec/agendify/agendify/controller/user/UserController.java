@@ -9,6 +9,7 @@ import com.fatec.agendify.agendify.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping
+    @PreAuthorize("hasRole('MASTER')")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserCreateDTO userDTO) {
@@ -49,11 +56,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MASTER')")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @Valid @RequestBody UserUpdateDTO userDTO) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MASTER')")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
