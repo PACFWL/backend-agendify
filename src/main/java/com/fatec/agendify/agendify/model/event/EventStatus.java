@@ -7,5 +7,6 @@ public enum EventStatus {
     EM_PAUSA,
     FINALIZADO,
     EM_ANALISE,
-    INDETERMINADO
+    INDETERMINADO,
+    ABANDONADO
 }

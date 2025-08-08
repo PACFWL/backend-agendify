@@ -5,43 +5,51 @@ import com.fatec.agendify.agendify.model.event.EventStatus;
 import com.fatec.agendify.agendify.model.event.AdministrativeEventStatus;
 
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 public class EventStatusUtil {
 
     public static EventStatus determineStatus(Event event) {
         AdministrativeEventStatus adminStatus = event.getAdministrativeStatus();
 
-        switch (adminStatus) {
-            case NORMAL:
-            case APROVADO:
-                return determineByTime(event);
+     switch (adminStatus) {
+        case NORMAL:
+        case APROVADO:
+        case URGENTE:
+            return determineByTime(event);
 
-            case CANCELADO:
-            case RECUSADO:
-                return EventStatus.FINALIZADO;
+        case CANCELADO:
+            return EventStatus.FINALIZADO;
 
-            case ADIADO:
-            case INDEFINIDO:
-                return EventStatus.INDETERMINADO; 
+        case RECUSADO:
+            return EventStatus.ABANDONADO;
 
-            case PENDENTE:
-            case AGUARDANDO:
-                return event.getStatus(); 
+        case ADIADO:
+            return EventStatus.INDETERMINADO;
 
-            case URGENTE:
-               
-                return determineByTime(event);
+        case INDEFINIDO:
+            LocalDate hoje = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
+            LocalDate dia = event.getDay();
+            long diasParado = ChronoUnit.DAYS.between(dia, hoje);
+            if (diasParado >= 7) {
+                return EventStatus.ABANDONADO;
+            }
+            return EventStatus.INDETERMINADO;
 
-            case ATRASADO:
-               
-                LocalTime now = LocalTime.now(ZoneId.of("America/Sao_Paulo"));
-                if (now.isAfter(event.getStartTime()) && now.isBefore(event.getEndTime())) {
-                    return EventStatus.EM_ANDAMENTO;
-                }
-                return determineByTime(event);
-        }
-        return event.getStatus();
+        case PENDENTE:
+        case AGUARDANDO:
+            return event.getStatus();
+
+        case ATRASADO:
+            LocalTime now = LocalTime.now(ZoneId.of("America/Sao_Paulo"));
+            if (now.isAfter(event.getStartTime()) && now.isBefore(event.getEndTime())) {
+                return EventStatus.EM_ANDAMENTO;
+            }
+            return determineByTime(event);
     }
+
+    return event.getStatus();
+}
     private static EventStatus determineByTime(Event event) {
         ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
         LocalDate currentDate = LocalDate.now(zoneId);
