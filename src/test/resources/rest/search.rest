@@ -150,11 +150,21 @@ Content-Type: application/json
 
 ### Buscar eventos filtrando por startTime e endTime
 POST http://localhost:8080/api/events/search
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzQ4MTIwMDY0LCJleHAiOjE3NDgyMDY0NjR9.8zaFDWq6g7SDyrEKGDMWCWK92G0e6UFasdz6e1-EEyQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzU1NDc3NDQwLCJleHAiOjE3NTU1NjM4NDB9.qI22-kiy7t_82Q51K6Z9Nm6eziWnKdoW_0teAxeeIDw
 Content-Type: application/json
 
 {
   "intervalSearch": true,
-  "startTime": "02:00:00",
-  "endTime": "23:00:00"
+  "startTime": "02:00",
+  "endTime": "23:00"
+}
+
+###
+POST http://localhost:8080/api/events/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzI2ZmRkMS01YmFmLTRkNjUtYmI5Ni1jMTUyZWNmN2Y0NGQiLCJlbWFpbCI6Im1hc3RlckBnbWFpbC5jb20iLCJyb2xlcyI6WyJNQVNURVIiXSwiaWF0IjoxNzU0NzcwOTQ3LCJleHAiOjE3NTQ4NTczNDd9.QqpUuXgk_nufgv9JakWZXidnNxMFhWaQgvhqyZpz3Hs
+Content-Type: application/json
+
+{
+  "startDay": "2025-08-01",
+  "endDay": "2025-08-08"
 }

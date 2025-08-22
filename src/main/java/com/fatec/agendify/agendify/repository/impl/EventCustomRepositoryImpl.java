@@ -28,27 +28,39 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
         if (filter.getName() != null) {
             criteriaList.add(Criteria.where("name").regex(filter.getName(), "i"));
         }
+
         if (filter.getDay() != null) {
             criteriaList.add(Criteria.where("day").is(filter.getDay()));
         }
+
         if (filter.getStartDay() != null && filter.getEndDay() != null) {
+            
             criteriaList.add(Criteria.where("day").gte(filter.getStartDay()).lte(filter.getEndDay()));
+        } else if (filter.getStartDay() != null) {
+        
+            criteriaList.add(Criteria.where("day").gte(filter.getStartDay()));
+        } else if (filter.getEndDay() != null) {
+            
+            criteriaList.add(Criteria.where("day").lte(filter.getEndDay()));
         }
-        if (filter.getStartTime() != null && filter.getEndTime() != null) {
-            if (Boolean.TRUE.equals(filter.getIntervalSearch())) {
-              
-                criteriaList.add(Criteria.where("startTime").lte(filter.getEndTime()));
-                criteriaList.add(Criteria.where("endTime").gte(filter.getStartTime()));
-            } else {
-             
-                criteriaList.add(Criteria.where("startTime").is(filter.getStartTime()));
-                criteriaList.add(Criteria.where("endTime").is(filter.getEndTime()));
-            }
+    
+      /*if (filter.getStartTime() != null && filter.getEndTime() != null) {
+        
+        if (Boolean.TRUE.equals(filter.getIntervalSearch())) {
+            
+            criteriaList.add(Criteria.where("startTime").lte(filter.getEndTime()));
+            criteriaList.add(Criteria.where("endTime").gte(filter.getStartTime()));
+        } else {
+            
+            criteriaList.add(Criteria.where("startTime").is(filter.getStartTime()));
+            criteriaList.add(Criteria.where("endTime").is(filter.getEndTime()));
+        }
         } else if (filter.getStartTime() != null) {
             criteriaList.add(Criteria.where("startTime").is(filter.getStartTime()));
         } else if (filter.getEndTime() != null) {
             criteriaList.add(Criteria.where("endTime").is(filter.getEndTime()));
         }
+         */
         
         if (filter.getTheme() != null) {
             criteriaList.add(Criteria.where("theme").regex(filter.getTheme(), "i"));
