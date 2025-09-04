@@ -13,11 +13,11 @@
 * [Estrutura do projeto](#estrutura-do-projeto)
 * [Endpoints principais](#endpoints-principais)
 * [Exemplos de payloads](#exemplos-de-payloads)
-* [Configuração](#configuração)
+* [Configuração](#configuração--variaveis-de-ambiente)
 * [Rodando localmente](#rodando-localmente)
-* [Autenticação](#autenticação)
+* [Autenticação](#autenticacao-fluxo)
 * [Contribuindo](#contribuindo)
-* [Licença](#licença)
+* [Licença](#licenca)
 
 ---
 
