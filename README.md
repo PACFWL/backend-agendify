@@ -75,10 +75,6 @@ src/main/java/com/fatec/agendify/agendify/
 
 ---
 
-# Endpoints principais (resumo)
-
-> **Obs.** Ajuste as rotas reais conforme a implementação do controlador. Aqui segue um mapeamento típico encontrado no projeto.
-
 ## Autenticação / Usuários
 
 * `POST /auth/register` — cria usuário (pode gerar PendingUser dependendo da regra)
@@ -121,8 +117,6 @@ src/main/java/com/fatec/agendify/agendify/
 ---
 
 # Exemplos de payloads (DTOs)
-
-> Use os nomes dos DTOs do projeto (ex.: `EventCreateDTO`, `EventUpdateDTO`, `PendingEventCreateDTO`, `UserCreateDTO`, etc).
 
 ### Ex.: `UserCreateDTO` (registro simples)
 
